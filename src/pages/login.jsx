@@ -89,7 +89,7 @@ function Login() {
 
             setTimeout(() => {
                 navigate('/dashboard')
-            }, 3000);
+            }, 2000);
         } catch (error) {
             toast.error(error.response?.data?.message);
         }

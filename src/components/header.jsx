@@ -120,8 +120,8 @@ function Header({ toggleSidebar, setToggleSidebar }) {
                     </>}
             </div>
 
-            <div>
-                <div className='w-[50px] h-[50px] mr-5 flex justify-center rounded-full items-center cursor-pointer bg-[#80808029]' onClick={(e) => { e.stopPropagation(); setOpen(!open) }}>
+            <div className='flex items-center'>
+                <div className='ml-5 w-[50px] h-[50px] mr-5 flex justify-center rounded-full items-center cursor-pointer bg-[#80808029]' onClick={(e) => { e.stopPropagation(); setOpen(!open) }}>
                     <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
                         <span className="text-white font-semibold text-sm">{userInitials}</span>
                     </div>
