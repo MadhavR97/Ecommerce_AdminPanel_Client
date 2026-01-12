@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import logo from '../assets/Images/logolight.svg'
-import logoIcon from '../assets/Images/logoIcon.svg'
+import logoIcon from '../assets/Images/LogoIcon.svg'
 import ProductIcon from '../assets/Images/productIcon.svg';
 import SpeedIcon from '@mui/icons-material/Speed';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
