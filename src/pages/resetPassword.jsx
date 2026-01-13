@@ -49,7 +49,7 @@ function ResetPassword() {
     }
 
     return (
-        <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 p-5'>
+        <div className='w-full h-full flex items-center justify-center bg-[#EEF2F6] p-5'>
             <div className='p-8 rounded-2xl bg-white w-full max-w-md shadow border border-gray-100'>
                 <div className='flex justify-center items-start mb-6'>
                     <img
@@ -60,7 +60,7 @@ function ResetPassword() {
                 </div>
 
                 <div className='text-center mb-8'>
-                    <h1 className='text-2xl font-bold text-gray-800 mb-2'>Reset Password</h1>
+                    <h1 className='text-xl md:text-2xl font-bold text-gray-800 mb-2'>Reset Password</h1>
                     <p className='text-gray-600 text-sm leading-relaxed'>
                         Enter your new password below.
                     </p>
@@ -72,7 +72,7 @@ function ResetPassword() {
                             sx={{
                                 width: '100%',
                                 "& .MuiOutlinedInput-root": {
-                                    borderRadius: '10px'
+                                    borderRadius: '5px',
                                 }
                             }}
                             name='newPassword'
@@ -84,7 +84,7 @@ function ResetPassword() {
                                 width: '100%',
                                 marginTop: '10px',
                                 "& .MuiOutlinedInput-root": {
-                                    borderRadius: '10px'
+                                    borderRadius: '5px',
                                 }
                             }}
                             InputProps={{
@@ -105,12 +105,12 @@ function ResetPassword() {
 
                     <button
                         type='submit'
-                        className='w-full bg-[rgb(94,53,177)] hover:bg-[rgb(81,45,150)] text-white font-semibold py-3.5 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[rgb(94,53,177)] focus:ring-opacity-50 cursor-pointer'
+                        className='mt-5 w-full bg-[rgb(94,53,177)] hover:bg-[rgb(81,45,150)] text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[rgb(94,53,177)] focus:ring-opacity-50 cursor-pointer'
                     >
                         Reset Password
                     </button>
 
-                    <div className='text-center pt-2'>
+                    <div className='text-center'>
                         <button
                             type='button'
                             onClick={() => navigate('/')}

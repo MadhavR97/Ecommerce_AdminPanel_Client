@@ -38,10 +38,11 @@ function Login() {
             try {
                 const parsedData = JSON.parse(savedData);
 
-                setFormData({
-                    email: parsedData.email,
-                    password: parsedData.password
-                });
+                setFormData(prev => ({
+                    ...prev,
+                    email: parsedData.email || '',
+                    password: parsedData.password || ''
+                }));
                 setRememberMe(true);
             } catch (error) {
                 console.error("Error parsing saved credentials:", error);
@@ -96,39 +97,52 @@ function Login() {
     };
 
     return (
-        <div className='border border-black w-full h-auto flex items-center justify-center bg-[#EEF2F6] p-5'>
-            <div className='p-8 rounded-lg bg-white w-full md:w-[500px]'>
-                <div className='flex justify-center mb-3'>
+        <div className='border border-[red] w-full h-full flex items-center justify-center p-5 md:p-0'>
+            <div className='p-8 md:p-10 rounded-lg bg-white w-full sm:w-[80%] md:w-[60%] xl:w-[35%] shadow shadow-md'>
+                <div className='flex justify-center'>
                     <img src={logo} alt="Logo" />
                 </div>
-                <h1 className='font-bold w-full flex justify-center items-center mt-10 text-[rgb(94,53,177)] text-[1.5rem]'>Hi, Welcome Back</h1>
-                <h3 className='w-full flex justify-center mt-4 text-[#9E9E9E] font-bold'>Enter your credentials to continue</h3>
-                <div className='border border-[#00000014] p-2 rounded-md flex justify-center mt-8 cursor-pointer'>
+                <h1 className='font-bold w-full flex justify-center items-center mt-5 md:mt-10 text-[rgb(94,53,177)] text-xl'>Hi, Welcome Back</h1>
+                <h3 className='w-full flex justify-center mt-1 text-[#9E9E9E]'>Enter your credentials to continue</h3>
+                <div className='border border-[#00000014] p-2 rounded-md flex justify-center mt-5 cursor-pointer'>
                     <img src={googleIcon} alt="Google" className='mr-3' />
                     <h4 className='font-bold text-[#616161] text-[0.9rem]'>Sign In With Google</h4>
                 </div>
-                <div className="mt-8 flex items-center">
+                <div className="mt-5 flex items-center">
                     <Divider className="flex-1" />
                     <div className="border border-[#00000014] py-0.5 px-8 rounded-full mx-5">
                         <p className="font-[500] text-[0.8rem]">OR</p>
                     </div>
                     <Divider className="flex-1" />
                 </div>
-                <div className='w-full flex justify-center mt-8 font-bold'>
+                <div className='w-full flex justify-center mt-5 font-bold text-sm'>
                     <p>Sign in with Email address</p>
                 </div>
                 <form className='flex flex-col my-5 gap-5 w-full' onSubmit={handleSubmit}>
                     <FormControl fullWidth>
-                        <InputLabel>Roll</InputLabel>
+                        <InputLabel size="small" sx={{ mt: { md: '5px' } }}>Roll</InputLabel>
                         <Select
-                            name='roll'
+                            name="roll"
                             value={formData.roll}
                             onChange={handleChange}
                             label="Roll"
-                            sx={{
-                                borderRadius: '12px'
-                            }}
+                            size="small"
                             required
+                            sx={{
+                                borderRadius: '5px',
+                                fontSize: { sm: '10px', md: '14px' },
+                                height: { md: '50px' }
+                            }}
+                            MenuProps={{
+                                PaperProps: {
+                                    sx: {
+                                        '& .MuiMenuItem-root': {
+                                            fontSize: { sm: '12px', md: '14px' },
+                                            padding: { sm: '6px 12px', md: '10px 16px' }
+                                        },
+                                    },
+                                },
+                            }}
                         >
                             <MenuItem value="admin">Admin</MenuItem>
                             <MenuItem value="user">User</MenuItem>
@@ -137,7 +151,8 @@ function Login() {
                     <TextField label="Email Address / Username" variant="outlined"
                         sx={{
                             "& .MuiOutlinedInput-root": {
-                                borderRadius: '12px'
+                                borderRadius: '5px',
+                                height: 50
                             }
                         }}
                         name='email'
@@ -149,7 +164,8 @@ function Login() {
                             className='w-full'
                             sx={{
                                 "& .MuiOutlinedInput-root": {
-                                    borderRadius: '12px'
+                                    borderRadius: '5px',
+                                    height: 50,
                                 }
                             }}
                             InputProps={{
@@ -166,23 +182,23 @@ function Login() {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className='flex justify-between'>
-                        <div className='flex item-center'>
+                    <div className='flex justify-between items-center'>
+                        <div className='flex items-center'>
                             <input
                                 type="checkbox"
-                                className="mr-2 w-4 h-4 mt-1 cursor-pointer"
+                                className="mr-2 w-4 h-4 cursor-pointer"
                                 checked={rememberMe}
                                 onChange={handleCheck}
                             />
-                            <p>Remember Me?</p>
+                            <p className='text-sm'>Remember Me?</p>
                         </div>
-                        <p className='text-[rgb(30,136,229)] cursor-pointer' onClick={() => { navigate('/forgot-password') }}>Forgot Password?</p>
+                        <p className='text-[rgb(30,136,229)] cursor-pointer text-sm' onClick={() => { navigate('/forgot-password') }}>Forgot Password?</p>
                     </div>
-                    <button className='w-full bg-[rgb(94,53,177)] py-3 rounded-sm text-white font-bold cursor-pointer'>Sign In</button>
+                    <button className='w-full bg-[rgb(94,53,177)] py-2 md:py-3 rounded-sm text-white font-bold cursor-pointer'>Sign In</button>
                 </form>
                 <Divider />
                 <div className='flex justify-end mt-4'>
-                    <span className='text-[gray] cursor-pointer' onClick={() => navigate('/signup')}>Don't have an account yet?</span>
+                    <span className='text-[gray] cursor-pointer text-sm' onClick={() => navigate('/signup')}>Don't have an account yet?</span>
                 </div>
             </div>
             <ToastContainer />

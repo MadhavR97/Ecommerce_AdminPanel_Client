@@ -106,7 +106,7 @@ function EditProduct() {
         <DashboardLayout>
             <form className='w-full h-full overflow-y-scroll' onSubmit={handleSubmit}>
                 {isMobile
-                    ? <div className='bg-white rounded-md shadow w-full p-5 flex justify-between items-center'>
+                    ? <div className='bg-white rounded-md shadow w-full p-3 flex justify-between items-center'>
                         <h1 className='font-bold text-[#212121] text-lg md:text-2xl'>Edit product</h1>
                         <div className='flex'>
                             <div className='border border-[rgb(239,83,80)] bg-[rgb(239,83,80)] group hover:bg-[rgb(252,228,225)] flex justify-center items-center p-2 rounded-md mr-3 cursor-pointer' onClick={() => navigate('/list-product')}>
@@ -149,9 +149,9 @@ function EditProduct() {
                         <div className="p-5 bg-white rounded-lg shadow">
                             <p className="text-sm font-semibold text-gray-700 mb-3">Add images</p>
 
-                            <label className="flex flex-col items-center justify-center gap-2 w-full p-6 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+                            <label className="flex flex-col items-center justify-center gap-2 w-full p-6 border-2 border-dashed overflow-hidden border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
                                 <BackupIcon />
-                                <span className="text-sm text-gray-600">{imageName || 'Click to upload'}</span>
+                                <span className="w-full text-sm text-gray-600 truncate text-center">{imageName || 'Click to upload'}</span>
 
                                 <input type="file" accept="image/*" className="hidden" onChange={handleChangeFile} />
                             </label>

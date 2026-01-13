@@ -49,7 +49,7 @@ function ListProducts() {
         <DashboardLayout>
             {length > 0
                 ? <div>
-                    <div className='bg-white rounded-md shadow w-full p-5 flex justify-between items-center'>
+                    <div className='bg-white rounded-md shadow w-full p-3 md:p-5 flex justify-between items-center'>
                         <h1 className='font-bold text-[#212121] text-lg md:text-2xl'>Products</h1>
                         <p className='font-bold text-[gray] text-sm'>( {length} {length > 1 ? 'products' : 'product'} )</p>
                     </div>

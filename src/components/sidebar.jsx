@@ -20,13 +20,14 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
 
     return (
         <>
-            <div className={`h-full duration-300 bg-[#212121] hidden md:block ${toggleSidebar ? 'w-[15%] duration-300' : 'w-[5%]'}`}>
+            {/* Desktop Device */}
+            <div className={`h-full duration-300 bg-[#212121] overflow-y-scroll hidden md:block ${toggleSidebar ? 'w-[30%] lg:w-[20%] xl:w-[15%] duration-300' : 'w-[10%] lg:w-[5%]'}`}>
                 <div className='w-full px-5 py-8 mb-5'>
                     <img src={toggleSidebar ? logo : logoIcon} alt="Logo" className={`${!toggleSidebar ? 'w-[30px]' : 'w-auto'}`} />
                 </div>
 
                 <div className={`p-5`}>
-                    <div className='flex pl-1 text-white'>
+                    <div className='flex pl-2 text-white'>
                         <SpeedIcon className='group-hover:text-[rgb(94,53,177)]' />
                         <p className={`font-[600] ml-3 ${toggleSidebar ? 'truncate w-full duration-300' : 'hidden'}`}>Dashboard</p>
                     </div>
@@ -42,7 +43,7 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
 
                 {user.roll == 'admin' && (
                     <div className={`p-5`}>
-                        <div className='flex pl-1 text-white'>
+                        <div className='flex pl-2 text-white'>
                             <PeopleIcon className='group-hover:text-[rgb(94,53,177)]' />
                             <p className={`font-[600] ml-3 ${toggleSidebar ? 'truncate w-full duration-300' : 'hidden'}`}>User Management</p>
                         </div>
@@ -58,7 +59,7 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
                 </div>
 
                 <div className={`p-5`}>
-                    <div className='flex cursor-pointer pl-1 text-white' onClick={() => setExpanded(!expanded)}>
+                    <div className='flex cursor-pointer pl-2 text-white' onClick={() => setExpanded(!expanded)}>
                         <img src={ProductIcon} className='w-5' />
                         <p className={`font-[600] ml-3 ${toggleSidebar ? 'truncate w-full duration-300' : 'hidden'}`}>Product</p>
                         {toggleSidebar && (
@@ -86,7 +87,7 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
                 </div>
 
                 <div className={`p-5`}>
-                    <div className='flex cursor-pointer pl-1 text-white'>
+                    <div className='flex cursor-pointer pl-2 text-white'>
                         <ShoppingCartIcon />
                         <p className={`font-[600] ml-3 ${toggleSidebar ? 'truncate w-full duration-300' : 'hidden'}`}>Orders</p>
                     </div>
@@ -96,7 +97,8 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
                 </div>
             </div>
 
-            <div className={`w-full h-full duration-300 bg-[#212121] block md:hidden absolute z-50 ${!toggleSidebar ? 'left-[0]' : 'left-[-100%]'}`}>
+            {/* Mobile Device */}
+            <div className={`w-full h-full overflow-y-scroll duration-300 bg-[#212121] block md:hidden absolute z-50 ${!toggleSidebar ? 'left-[0]' : 'left-[-100%]'}`}>
                 <div className='w-full px-5 py-8 mb-5 flex justify-between items-center'>
                     <img src={logo} alt="Logo" />
                     <CloseIcon className='text-white cursor-pointer' onClick={() => { setToggleSidebar(true) }} />

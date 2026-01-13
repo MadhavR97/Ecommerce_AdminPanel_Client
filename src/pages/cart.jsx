@@ -6,7 +6,7 @@ import axios from 'axios'
 import emptyBox from '../assets/Images/emptyBox.png'
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import { toast, ToastContainer } from 'react-toastify'
-import { useTheme, useMediaQuery } from '@mui/material'
+import { useMediaQuery, useTheme } from '@mui/material'
 
 function Cart() {
 
@@ -15,7 +15,7 @@ function Cart() {
     const navigate = useNavigate();
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
 
     const [cartItems, setCartItems] = useState([]);
     const [userId, setUserId] = useState('');
@@ -73,7 +73,7 @@ function Cart() {
         <DashboardLayout>
             {cartItems.length > 0 ?
                 <div>
-                    <div className='bg-white rounded-md shadow w-full p-5 flex justify-between items-center'>
+                    <div className='bg-white rounded-md shadow w-full p-3 md:p-5 flex justify-between items-center'>
                         <h1 className="text-lg md:text-2xl font-bold text-gray-900">Shopping Cart</h1>
                         <p className="text-gray-500 text-sm mt-1">
                             {length} item{length !== 1 ? 's' : ''} in your cart

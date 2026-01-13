@@ -14,7 +14,7 @@ function Header({ toggleSidebar, setToggleSidebar }) {
     const navigate = useNavigate()
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const [open, setOpen] = useState(false)
     const [searchInput, setSearchInput] = useState('')
@@ -71,41 +71,47 @@ function Header({ toggleSidebar, setToggleSidebar }) {
     };
 
     return (
-        <div className='flex justify-between items-center'>
-            <div className='w-full h-[15vh] bg-white flex items-center px-5 md:relative'>
-                <div className='bg-[rgb(237,231,246)] flex justify-center items-center p-2 rounded-md cursor-pointer group hover:bg-[rgb(94,53,177)]' onClick={() => setToggleSidebar(!toggleSidebar)}>
+        <div className='flex justify-between items-center bg-white relative'>
+            <div className='w-full bg-white flex items-center px-5 py-5 md:py-6 md:relative'>
+                <div className='bg-[rgb(237,231,246)] flex justify-center items-center p-2 rounded-md cursor-pointer group hover:bg-[rgb(94,53,177)] z-[1]' onClick={() => setToggleSidebar(!toggleSidebar)}>
                     <MenuIcon className='text-[rgb(94,53,177)] group-hover:text-white' />
                 </div>
 
-                <div className='border border-[gray] rounded-lg flex items-center ml-8 md:ml-5 h-[40px]'>
-                    <div className='w-[40px] h-full flex justify-center items-center'>
-                        <SearchIcon className='text-[gray]' />
+                <div className='w-full absolute left-0 flex justify-center items-center sm:static sm:w-auto'>
+                    <div className='border border-[gray] rounded-lg flex items-center ml-2 md:ml-5 h-[40px]'>
+                        <div className='w-[40px] h-full flex justify-center items-center'>
+                            <SearchIcon className='text-[gray]' />
+                        </div>
+                        <input type='text' placeholder='Search products...' className='outline-none text-sm md:w-[300px]' onChange={handleChange} />
                     </div>
-                    <input type='text' placeholder='Search products...' className='outline-none md:w-[300px]' onChange={handleChange} />
                 </div>
 
                 {isMobile
                     ? <>
                         {searchInput && filteredProducts.length > 0 ? (
-                            <div className='border border-[gray] w-full max-h-[86vh] absolute top-27 left-[0] p-3 rounded-lg bg-white z-50 overflow-y-scroll'>
-                                {filteredProducts.map(product => (
-                                    <div key={product._id} className='flex items-center p-2 border-b border-gray-200 hover:bg-gray-100 cursor-pointer' onClick={() => navigate(`/single-product/${product._id}`)}>
-                                        <img src={`${API_URL}/${product.image}`} alt={product.productName} className='w-10 h-10 object-contain rounded-md mr-3' />
-                                        <div>
-                                            <p className='text-sm font-medium text-gray-800'>{product.productName}</p>
-                                            <p className='text-xs text-gray-500'>₹{product.price}</p>
+                            <div className='w-full p-5 absolute top-20 left-0 z-[1]'>
+                                <div className='shadow shadow-md w-full max-h-[70vh] p-3 rounded-lg bg-white overflow-y-scroll flex flex-col gap-2'>
+                                    {filteredProducts.map(product => (
+                                        <div key={product._id} className='flex items-center p-2 border-b border-[gray] rounded-lg hover:bg-gray-100 cursor-pointer' onClick={() => navigate(`/single-product/${product._id}`)}>
+                                            <img src={`${API_URL}/${product.image}`} alt={product.productName} className='w-10 h-10 object-contain rounded-md mr-3' />
+                                            <div>
+                                                <p className='text-sm font-medium text-gray-800'>{product.productName}</p>
+                                                <p className='text-xs text-gray-500'>₹{product.price}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
                         ) : searchInput && filteredProducts.length === 0 ? (
-                            <div className="border border-[gray] w-[341px] h-[50px] text-gray-500 absolute top-20 left-20 bg-white z-50 rounded-lg text-center flex justify-center items-center">No products found</div>
+                            <div className='absolute top-20 left-0 w-full flex justify-center items-center p-5'>
+                                <div className="shadow shadow-md shadow-[gray] w-[341px] h-[50px] text-gray-500 bg-white z-50 rounded-lg text-center flex justify-center items-center">No products found</div>
+                            </div>
                         ) : null}</>
                     : <>
                         {searchInput && filteredProducts.length > 0 ? (
-                            <div className='border border-[gray] w-[341px] absolute top-20 left-20 p-5 rounded-lg bg-white z-50 max-h-[300px] overflow-y-scroll'>
+                            <div className='shadow shadow-md flex flex-col gap-2 absolute top-20 left-20 p-5 rounded-lg bg-white z-50 overflow-y-scroll'>
                                 {filteredProducts.map(product => (
-                                    <div key={product._id} className='flex items-center p-2 border-b border-gray-200 hover:bg-gray-100 cursor-pointer' onClick={() => navigate(`/single-product/${product._id}`)}>
+                                    <div key={product._id} className='flex items-center p-2 border-b border-[gray] rounded-lg border-gray-200 hover:bg-gray-100 cursor-pointer' onClick={() => navigate(`/single-product/${product._id}`)}>
                                         <img src={`${API_URL}/${product.image}`} alt={product.productName} className='w-10 h-10 object-cover rounded-md mr-3' />
                                         <div>
                                             <p className='text-sm font-medium text-gray-800'>{product.productName}</p>
@@ -115,13 +121,15 @@ function Header({ toggleSidebar, setToggleSidebar }) {
                                 ))}
                             </div>
                         ) : searchInput && filteredProducts.length === 0 ? (
-                            <div className="border border-[gray] w-[341px] h-[50px] text-gray-500 absolute top-20 left-20 bg-white z-50 rounded-lg text-center flex justify-center items-center">No products found</div>
+                            <div className='shadow shadow-md absolute top-20 left-20 px-25 py-3 rounded-lg bg-white z-50'>
+                                <p className="text-gray-500 bg-white z-50 rounded-lg text-center flex justify-center items-center">No products found</p>
+                            </div>
                         ) : null}
                     </>}
             </div>
 
-            <div className='flex items-center'>
-                <div className='ml-5 w-[50px] h-[50px] mr-5 flex justify-center rounded-full items-center cursor-pointer bg-[#80808029]' onClick={(e) => { e.stopPropagation(); setOpen(!open) }}>
+            <div className='flex items-center mr-3 z-[1]'>
+                <div className='ml-5 w-13 h-13 flex justify-center rounded-full items-center cursor-pointer bg-[#80808029]' onClick={(e) => { e.stopPropagation(); setOpen(!open) }}>
                     <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
                         <span className="text-white font-semibold text-sm">{userInitials}</span>
                     </div>
@@ -155,7 +163,7 @@ function Header({ toggleSidebar, setToggleSidebar }) {
                     </Box>
                 )
             }
-        </div >
+        </div>
     )
 }
 

@@ -4,5 +4,7 @@ import '../node_modules/tailwindcss/index.css'
 import './index.css'
 
 createRoot(document.getElementById('root')).render(
-  <App />
+  <div className='h-auto w-full flex justify-center items-center overflow-auto bg-[#EEF2F6]'>
+    <App />
+  </div>
 )

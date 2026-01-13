@@ -76,7 +76,7 @@ function AddProduct() {
     return (
         <DashboardLayout>
             <form className='w-full h-full overflow-y-scroll' onSubmit={handleSubmit}>
-                <div className='bg-white rounded-md shadow w-full p-5 flex justify-between items-center'>
+                <div className='bg-white rounded-md shadow w-full p-3 md:p-5 flex justify-between items-center'>
                     <h1 className='font-bold text-[#212121] text-lg md:text-2xl'>Add a product</h1>
                     <input type="submit" value='Add Product' className='border px-5 py-2 rounded-md cursor-pointer bg-[rgb(94,53,177)] text-white hover:bg-[rgb(237,231,246)] hover:text-[rgb(94,53,177)] hover:border-[rgb(94,53,177)]' />
                 </div>
