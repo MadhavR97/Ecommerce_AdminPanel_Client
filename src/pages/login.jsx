@@ -97,7 +97,7 @@ function Login() {
     };
 
     return (
-        <div className='border border-[red] w-full h-full flex items-center justify-center p-5 md:p-0'>
+        <div className='w-full h-full flex items-center justify-center p-5 md:p-0'>
             <div className='p-8 md:p-10 rounded-lg bg-white w-full sm:w-[80%] md:w-[60%] xl:w-[35%] shadow shadow-md'>
                 <div className='flex justify-center'>
                     <img src={logo} alt="Logo" />

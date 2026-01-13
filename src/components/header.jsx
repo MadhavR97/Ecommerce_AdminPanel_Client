@@ -109,7 +109,7 @@ function Header({ toggleSidebar, setToggleSidebar }) {
                         ) : null}</>
                     : <>
                         {searchInput && filteredProducts.length > 0 ? (
-                            <div className='shadow shadow-md flex flex-col gap-2 absolute top-20 left-20 p-5 rounded-lg bg-white z-50 overflow-y-scroll'>
+                            <div className='h-[250px] overflow-y-scroll shadow shadow-md flex flex-col gap-2 absolute top-20 left-20 p-5 rounded-lg bg-white z-50 overflow-y-scroll'>
                                 {filteredProducts.map(product => (
                                     <div key={product._id} className='flex items-center p-2 border-b border-[gray] rounded-lg border-gray-200 hover:bg-gray-100 cursor-pointer' onClick={() => navigate(`/single-product/${product._id}`)}>
                                         <img src={`${API_URL}/${product.image}`} alt={product.productName} className='w-10 h-10 object-cover rounded-md mr-3' />
