@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ToastContainer, toast } from 'react-toastify';
 import emptyBox from '../assets/Images/emptyBox.png'
+import { CircularProgress } from '@mui/material';
 
 function ListProducts() {
 
@@ -14,17 +15,22 @@ function ListProducts() {
     const navigate = useNavigate()
     const [products, setProducts] = useState([]);
     const [length, setLength] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     const user = JSON.parse(localStorage.getItem('user'));
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
+                setLoading(true)
                 const response = await axios.get(`${API_URL}/products`);
                 setProducts(response.data.products);
                 setLength(response.data.products.length);
             } catch (error) {
                 console.error('Error fetching products:', error);
+            }
+            finally {
+                setLoading(false)
             }
         };
 
@@ -47,13 +53,25 @@ function ListProducts() {
 
     return (
         <DashboardLayout>
-            {length > 0
-                ? <div>
-                    <div className='bg-white rounded-md shadow w-full p-3 md:p-5 flex justify-between items-center'>
-                        <h1 className='font-bold text-[#212121] text-lg md:text-2xl'>Products</h1>
-                        <p className='font-bold text-[gray] text-sm'>( {length} {length > 1 ? 'products' : 'product'} )</p>
+            <div className='bg-white rounded-md shadow w-full p-3 md:p-5 flex justify-between items-center'>
+                <h1 className='font-bold text-[#212121] text-lg md:text-2xl'>Products</h1>
+                <p className='font-bold text-[gray] text-sm'>( {length} {length > 1 ? 'products' : 'product'} )</p>
+            </div>
+            {loading ? (
+                <div className='w-full h-[70vh] flex justify-center items-center bg-white rounded-md shadow mt-3'>
+                    <div className='flex flex-col items-center gap-4'>
+                        <CircularProgress
+                            size={30}
+                            thickness={4}
+                            sx={{
+                                color: 'rgb(94, 53, 177)'
+                            }}
+                        />
+                        <p className='text-gray-600 font-medium'>Loading products...</p>
                     </div>
-
+                </div>
+            ) : length > 0 ? (
+                <div>
                     <div className='mt-3 rounded-lg shadow w-full h-[69vh] md:h-[66vh] overflow-y-scroll p-5 bg-white flex flex-col gap-5'>
                         {products.length > 0 && products.map((product, index) => (
                             <Link to={`/single-product/${product._id}`} className={`w-full`} key={index}>
@@ -164,11 +182,13 @@ function ListProducts() {
                         ))}
                     </div>
                 </div>
-                : <div className='w-full h-full bg-white shadow p-5 rounded-md flex justify-center items-center flex-col gap-5'>
+            ) : (
+                <div className='w-full h-full bg-white shadow p-5 rounded-md flex justify-center items-center flex-col gap-5'>
                     <img src={emptyBox} alt="Empty Box" className='w-[100px]' />
                     <h1 className='font-bold text-[#212121] text-[1.3rem]'>No products found</h1>
                     <button className='border px-5 py-2 rounded-md cursor-pointer bg-[rgb(94,53,177)] text-white hover:bg-[rgb(237,231,246)] hover:text-[rgb(94,53,177)] hover:border-[rgb(94,53,177)]' onClick={() => navigate('/add-product')}>Add Product</button>
-                </div>}
+                </div>
+            )}
             <ToastContainer />
         </DashboardLayout>
     )

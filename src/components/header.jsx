@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import MenuIcon from '@mui/icons-material/Menu'
+import { useEffect, useState } from 'react'
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import SearchIcon from '@mui/icons-material/Search'
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useMediaQuery, useTheme } from '@mui/material';
+import { Badge, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import AiAssistant from './AiAssistant';
 
 function Header({ toggleSidebar, setToggleSidebar }) {
 
@@ -71,10 +73,10 @@ function Header({ toggleSidebar, setToggleSidebar }) {
     };
 
     return (
-        <div className='flex justify-between items-center bg-white relative'>
-            <div className='w-full bg-white flex items-center px-5 py-5 md:py-6 md:relative'>
-                <div className='bg-[rgb(237,231,246)] flex justify-center items-center p-2 rounded-md cursor-pointer group hover:bg-[rgb(94,53,177)] z-[1]' onClick={() => setToggleSidebar(!toggleSidebar)}>
-                    <MenuIcon className='text-[rgb(94,53,177)] group-hover:text-white' />
+        <div className='flex justify-between items-center bg-[#EEF2F6] relative'>
+            <div className='w-full flex items-center px-5 py-5 md:py-6 md:relative'>
+                <div className={`flex justify-center items-center p-2 rounded-md cursor-pointer duration-500 group z-[1] ${toggleSidebar ? 'rotate-180 md:rotate-0' : 'rotate-0 md:rotate-180'}`} onClick={() => setToggleSidebar(!toggleSidebar)}>
+                    <ChevronLeftIcon className={`text-[rgb(94,53,177)]`} />
                 </div>
 
                 <div className='w-full absolute left-0 flex justify-center items-center sm:static sm:w-auto'>
@@ -129,6 +131,14 @@ function Header({ toggleSidebar, setToggleSidebar }) {
             </div>
 
             <div className='flex items-center mr-3 z-[1]'>
+                {/* AI Assistant */}
+                <AiAssistant />
+
+                {/* Notifications */}
+                <Badge color="primary" className='cursor-pointer'>
+                    <NotificationsIcon color="action" />
+                </Badge>
+                {/* User Profile */}
                 <div className='ml-5 w-13 h-13 flex justify-center rounded-full items-center cursor-pointer bg-[#80808029]' onClick={(e) => { e.stopPropagation(); setOpen(!open) }}>
                     <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
                         <span className="text-white font-semibold text-sm">{userInitials}</span>

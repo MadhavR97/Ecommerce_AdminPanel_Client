@@ -3,7 +3,7 @@ import DashboardLayout from './dashboardLayout'
 import { useState } from 'react'
 import { useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
@@ -18,6 +18,7 @@ function UserManagement() {
     const [users, setUsers] = useState([]);
     const [open, setOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [newUser, setNewUser] = useState({
         roll: 'user',
         firstname: '',
@@ -35,11 +36,15 @@ function UserManagement() {
 
     const fetchUsers = async () => {
         try {
+            setLoading(true)
             const response = await axios.get(`${API_URL}/getUsers`);
             setUsers(response.data.users);
         }
         catch (error) {
             console.error('Error fetching users:', error);
+        }
+        finally {
+            setLoading(false)
         }
     }
 
@@ -115,171 +120,184 @@ function UserManagement() {
 
     return (
         <DashboardLayout>
-            <div>
-                <div className='bg-white rounded-md shadow w-full p-3 md:p-5 flex justify-between items-center'>
-                    <h1 className='font-bold text-[#212121] text-lg md:text-2xl'>Users</h1>
-                    <input type="submit" value='Add User' className='border px-5 py-2 rounded-md cursor-pointer bg-[rgb(94,53,177)] text-white hover:bg-[rgb(237,231,246)] hover:text-[rgb(94,53,177)] hover:border-[rgb(94,53,177)]' onClick={() => { setOpen(!open) }} />
-                </div>
+            <div className='bg-white rounded-md shadow w-full p-3 md:p-5 flex justify-between items-center'>
+                <h1 className='font-bold text-[#212121] text-lg md:text-2xl'>Users</h1>
+                <input type="submit" value='Add User' className='border px-5 py-2 rounded-md cursor-pointer bg-[rgb(94,53,177)] text-white hover:bg-[rgb(237,231,246)] hover:text-[rgb(94,53,177)] hover:border-[rgb(94,53,177)]' onClick={() => { setOpen(!open) }} />
+            </div>
 
-                <div className='mt-3 rounded-lg shadow w-full h-[69vh] md:h-[64vh] overflow-y-scroll p-5 bg-white flex flex-col gap-5'>
-                    <Paper
-                        sx={{
-                            width: '100%',
-                            overflow: 'hidden',
-                            borderRadius: 1,
-                        }}
-                    >
-                        <TableContainer
+            {loading
+                ? <div className='w-full h-[64vh] mt-3 flex justify-center items-center bg-white rounded-lg shadow'>
+                    <div className='flex flex-col items-center gap-4'>
+                        <CircularProgress
+                            size={30}
+                            thickness={4}
                             sx={{
-                                maxHeight: 500,
-                                overflow: 'auto',
+                                color: 'rgb(94, 53, 177)'
+                            }}
+                        />
+                        <p className='text-gray-600 font-medium'>Loading products...</p>
+                    </div>
+                </div>
+                : <div>
+                    <div className='mt-3 rounded-lg shadow w-full h-[69vh] md:h-[64vh] overflow-y-scroll p-5 bg-white flex flex-col gap-5'>
+                        <Paper
+                            sx={{
+                                width: '100%',
+                                overflow: 'hidden',
+                                borderRadius: 1,
                             }}
                         >
-                            <Table
-                                stickyHeader
-                                aria-label="user data table"
+                            <TableContainer
                                 sx={{
-                                    minWidth: 700,
-                                    tableLayout: 'fixed',
+                                    maxHeight: 500,
+                                    overflow: 'auto',
                                 }}
                             >
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell
-                                            sx={{
-                                                backgroundColor: '#f8fafc',
-                                                fontWeight: 600,
-                                                color: '#334155',
-                                                fontSize: '0.875rem',
-                                                whiteSpace: 'nowrap',
-                                                minWidth: 150,
-                                            }}
-                                        >
-                                            First Name
-                                        </TableCell>
-                                        <TableCell
-                                            sx={{
-                                                backgroundColor: '#f8fafc',
-                                                fontWeight: 600,
-                                                color: '#334155',
-                                                fontSize: '0.875rem',
-                                                whiteSpace: 'nowrap',
-                                                minWidth: 150,
-                                            }}
-                                        >
-                                            Last Name
-                                        </TableCell>
-                                        <TableCell
-                                            sx={{
-                                                backgroundColor: '#f8fafc',
-                                                fontWeight: 600,
-                                                color: '#334155',
-                                                fontSize: '0.875rem',
-                                                whiteSpace: 'nowrap',
-                                                minWidth: 200,
-                                            }}
-                                        >
-                                            Email
-                                        </TableCell>
-                                        <TableCell
-                                            sx={{
-                                                backgroundColor: '#f8fafc',
-                                                fontWeight: 600,
-                                                color: '#334155',
-                                                fontSize: '0.875rem',
-                                                py: 2,
-                                                whiteSpace: 'nowrap',
-                                                minWidth: 100,
-                                            }}
-                                        >
-                                            Roll
-                                        </TableCell>
-                                        <TableCell
-                                            sx={{
-                                                backgroundColor: '#f8fafc',
-                                                fontWeight: 600,
-                                                color: '#334155',
-                                                fontSize: '0.875rem',
-                                                whiteSpace: 'nowrap',
-                                                minWidth: 180,
-                                            }}
-                                        >
-                                            Actions
-                                        </TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {users.map((user) => (
-                                        <TableRow
-                                            key={user.id}
-                                            hover
-                                            sx={{
-                                                '&:last-child td, &:last-child th': { border: 0 },
-                                                transition: 'background-color 0.2s ease'
-                                            }}
-                                        >
+                                <Table
+                                    stickyHeader
+                                    aria-label="user data table"
+                                    sx={{
+                                        minWidth: 700,
+                                        tableLayout: 'fixed',
+                                    }}
+                                >
+                                    <TableHead>
+                                        <TableRow>
                                             <TableCell
                                                 sx={{
+                                                    backgroundColor: '#f8fafc',
+                                                    fontWeight: 600,
+                                                    color: '#334155',
                                                     fontSize: '0.875rem',
-                                                    color: '#475569',
                                                     whiteSpace: 'nowrap',
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis',
+                                                    minWidth: 150,
                                                 }}
                                             >
-                                                {user.firstname}
+                                                First Name
                                             </TableCell>
                                             <TableCell
                                                 sx={{
+                                                    backgroundColor: '#f8fafc',
+                                                    fontWeight: 600,
+                                                    color: '#334155',
                                                     fontSize: '0.875rem',
-                                                    color: '#475569',
                                                     whiteSpace: 'nowrap',
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis',
+                                                    minWidth: 150,
                                                 }}
                                             >
-                                                {user.lastname}
+                                                Last Name
                                             </TableCell>
                                             <TableCell
                                                 sx={{
+                                                    backgroundColor: '#f8fafc',
+                                                    fontWeight: 600,
+                                                    color: '#334155',
                                                     fontSize: '0.875rem',
-                                                    color: '#475569',
                                                     whiteSpace: 'nowrap',
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis',
+                                                    minWidth: 200,
                                                 }}
-                                                title={user.email}
                                             >
-                                                {user.email}
+                                                Email
                                             </TableCell>
                                             <TableCell
                                                 sx={{
+                                                    backgroundColor: '#f8fafc',
+                                                    fontWeight: 600,
+                                                    color: '#334155',
                                                     fontSize: '0.875rem',
-                                                    color: '#475569',
-                                                    py: 1.5,
+                                                    py: 2,
                                                     whiteSpace: 'nowrap',
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis',
+                                                    minWidth: 100,
                                                 }}
                                             >
-                                                {user.roll == 'user' && 'User'}
+                                                Roll
                                             </TableCell>
-                                            <TableCell sx={{ whiteSpace: 'nowrap' }}>
-                                                <button className='p-1 border bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors duration-200 cursor-pointer' onClick={() => handleEditUser(user)}>
-                                                    <EditSquareIcon className='w-3 h-3' />
-                                                </button>
-                                                <button className='p-1 border bg-red-50 text-red-600 rounded hover:bg-red-100 ml-2 transition-colors duration-200 cursor-pointer' onClick={() => handleDeleteUser(user._id)}>
-                                                    <DeleteIcon className='w-3 h-3' />
-                                                </button>
+                                            <TableCell
+                                                sx={{
+                                                    backgroundColor: '#f8fafc',
+                                                    fontWeight: 600,
+                                                    color: '#334155',
+                                                    fontSize: '0.875rem',
+                                                    whiteSpace: 'nowrap',
+                                                    minWidth: 180,
+                                                }}
+                                            >
+                                                Actions
                                             </TableCell>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Paper>
-                </div>
-            </div>
+                                    </TableHead>
+                                    <TableBody>
+                                        {users.map((user) => (
+                                            <TableRow
+                                                key={user.id}
+                                                hover
+                                                sx={{
+                                                    '&:last-child td, &:last-child th': { border: 0 },
+                                                    transition: 'background-color 0.2s ease'
+                                                }}
+                                            >
+                                                <TableCell
+                                                    sx={{
+                                                        fontSize: '0.875rem',
+                                                        color: '#475569',
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                    }}
+                                                >
+                                                    {user.firstname}
+                                                </TableCell>
+                                                <TableCell
+                                                    sx={{
+                                                        fontSize: '0.875rem',
+                                                        color: '#475569',
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                    }}
+                                                >
+                                                    {user.lastname}
+                                                </TableCell>
+                                                <TableCell
+                                                    sx={{
+                                                        fontSize: '0.875rem',
+                                                        color: '#475569',
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                    }}
+                                                    title={user.email}
+                                                >
+                                                    {user.email}
+                                                </TableCell>
+                                                <TableCell
+                                                    sx={{
+                                                        fontSize: '0.875rem',
+                                                        color: '#475569',
+                                                        py: 1.5,
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                    }}
+                                                >
+                                                    {user.roll == 'user' && 'User'}
+                                                </TableCell>
+                                                <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                                                    <button className='p-1 border bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors duration-200 cursor-pointer' onClick={() => handleEditUser(user)}>
+                                                        <EditSquareIcon className='w-3 h-3' />
+                                                    </button>
+                                                    <button className='p-1 border bg-red-50 text-red-600 rounded hover:bg-red-100 ml-2 transition-colors duration-200 cursor-pointer' onClick={() => handleDeleteUser(user._id)}>
+                                                        <DeleteIcon className='w-3 h-3' />
+                                                    </button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Paper>
+                    </div>
+                </div>}
 
             <Dialog
                 open={open}
