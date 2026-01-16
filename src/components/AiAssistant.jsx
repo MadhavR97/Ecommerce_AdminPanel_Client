@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CloseIcon from '@mui/icons-material/Close';
 import NorthIcon from '@mui/icons-material/North';
-import { Box, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import axios from 'axios';
 
 function AiAssistant() {
@@ -57,15 +57,15 @@ function AiAssistant() {
 
     return (
         <>
-            <button className='border border-[rgb(94,53,177,0.3)] hover:border-[rgb(94,53,177)] bg-[rgb(237,231,246)] flex items-center mr-3 p-2.5 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm' onClick={() => { setOpenAi(true) }}>
-                <AutoAwesomeIcon className='mr-2 text-[rgb(94,53,177)]' fontSize='small' />
-                <span className='whitespace-nowrap text-xs text-[rgb(94,53,177)] font-semibold'>AI Assistant</span>
+            <button className={`border border-[rgb(94,53,177,0.3)] bg-[rgb(237,231,246)] flex items-center mr-3 px-4 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm relative overflow-hidden group z-[0] ${openAi && 'bg-gradient-to-r from-[rgb(94,53,177)] to-[rgb(94,53,177,0.4)]'} before:w-0 before:h-full before:absolute before:top-0 before:left-0 before:bg-gradient-to-r before:from-[rgb(94,53,177)] before:to-[rgb(94,53,177,0.4)] before:duration-1000 before:z-[-1] hover:before:w-full`} onClick={() => { setOpenAi(true) }}>
+                <AutoAwesomeIcon className='mr-2 text-[rgb(94,53,177)] group-hover:text-white' fontSize='small' />
+                <span className='whitespace-nowrap text-xs text-[rgb(94,53,177)] font-semibold duration-1000 group-hover:text-white'>AI Assistant</span>
             </button>
             <Dialog open={openAi} onClose={() => setOpenAi(false)} maxWidth="sm" fullWidth sx={{ display: 'flex', justifyContent: 'right' }} PaperProps={{ sx: { borderRadius: '20px', overflow: 'hidden', border: '0px solid rgb(94,53,177)', width: '500px', height: '100%' } }}>
-                <DialogTitle sx={{ paddingX: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.1)' }}>
+                <DialogTitle sx={{ paddingX: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgb(237,231,246)' }}>
                     <div className='flex items-center mt-1'>
-                        <AutoAwesomeIcon className='mr-3' />
-                        <span className='text-xl font-bold'>AI Assistant</span>
+                        <AutoAwesomeIcon className='mr-3 text-[rgb(94,53,177)]' />
+                        <span className='text-xl font-bold text-[rgb(94,53,177)]'>AI Assistant</span>
                     </div>
                     <div>
                         <button className='text-[10px] border border-[rgb(94,53,177)] text-white bg-[rgb(94,53,177)] hover:bg-[rgb(94,53,177,0.9)] py-1 px-2 rounded mr-3 cursor-pointer' onClick={handleClearChat}>Clear chat</button>
@@ -109,7 +109,6 @@ function AiAssistant() {
                             />
                             <FormControl size="small">
                                 <Select
-                                    displayEmpty
                                     key={model}
                                     value={model}
                                     onChange={(e) => { setModel(e.target.value) }}
