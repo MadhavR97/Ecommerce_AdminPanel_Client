@@ -9,20 +9,43 @@ function AiAssistant() {
 
     const API_URL = import.meta.env.VITE_API_URL;
 
-    const [openAi, setOpenAi] = useState(false);
-    const [aiAssistantPrompt, setAiAssistantPrompt] = useState({ userMessage: '' });
+    const [openAi, setOpenAi] = useState(false)
+    const [prompt, setPrompt] = useState('')
+    const [messages, setMessages] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const handleSubmitAI = async () => {
-        try {
-            const response = await axios.post(`${API_URL}/chat`, { aiAssistantPrompt });
-            console.log("AI Response:", response.data);
-        } catch (error) {
-            console.error("AI Error:", error.response?.data || error.message);
-            alert("AI failed. Please try again.");
+        if (!prompt.trim()) return
+
+        const userMessage = {
+            role: 'user',
+            content: prompt,
         }
 
-        setAiAssistantPrompt({ userMessage: "" });
-    };
+        setMessages(prev => [...prev, userMessage])
+        setPrompt('')
+        setLoading(true)
+
+        console.log(messages)
+
+        try {
+            const res = await axios.post(`${API_URL}/aiAssistant`, { message: userMessage.content })
+
+            console.log('Response Ai', res.data.reply[0].message.content)
+
+            const aiMessage = {
+                role: 'assistant',
+                content: res.data.reply[0].message.content,
+            }
+
+            setMessages(prev => [...prev, aiMessage])
+        } catch (error) {
+            console.error(error)
+            alert('AI error, try again')
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return (
         <>
@@ -38,36 +61,55 @@ function AiAssistant() {
                     </div>
                     <CloseIcon className='cursor-pointer' onClick={() => setOpenAi(false)} />
                 </DialogTitle>
-                <DialogContent sx={{ padding: 4, display: 'flex', justifyContent: 'center', alignItems: 'end' }}>
-                    {/* AI Prompt Box */}
-                    <div className='border border-gray-400 flex justify-between items-center gap-2 px-2 rounded-full'>
-                        <input
-                            placeholder="Ask me anything, what you want to know?"
-                            className='w-95 p-4 rounded-lg focus:outline-gray-400 outline-none'
-                            onChange={(e) => { setAiAssistantPrompt((prev) => { return { ...prev, userMessage: e.target.value } }) }}
-                            name='userMessage'
-                            value={aiAssistantPrompt.userMessage}
-                            rows={1}
-                        />
-                        <button className='border flex w-10 h-10 flex justify-center items-center bg-black rounded-full cursor-pointer' onClick={handleSubmitAI}>
-                            <NorthIcon className='text-white' />
-                        </button>
+                <DialogContent
+                    sx={{
+                        padding: 0,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        height: '100%'
+                    }}
+                >
+                    <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                        {messages.map((msg, index) => (
+                            <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                                <div className={`max-w-[75%] px-4 py-2 text-sm ${msg.role === 'user'
+                                    ? 'bg-[rgb(94,53,177)] text-white rounded-tl-2xl rounded-bl-2xl rounded-tr-2xl'
+                                    : 'bg-gray-200 text-black rounded-tr-2xl rounded-br-2xl rounded-tl-2xl'
+                                    }`}
+                                >
+                                    {msg.content}
+                                </div>
+                            </div>
+                        ))}
+
+                        {loading && (
+                            <div className="text-gray-400 text-sm">AI is typing...</div>
+                        )}
                     </div>
-                </DialogContent>
-                {/* <DialogActions sx={{ paddingX: 3, paddingY: 2 }}>
-                    <div className='flex justify-end w-full items-center'>
-                        <div className='flex gap-2'>
-                            <button onClick={() => setOpenAi(false)} className='px-4 py-2 text-sm text-gray-700 border border-gray-300 hover:border-gray-400 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer'>Cancel</button>
-                            <button onClick={handleSubmitAI} className='px-4 py-2 text-sm text-[rgb(94,53,177)] rounded-lg flex items-center border border-[rgb(94,53,177,0.3)] cursor-pointer group duration-1000 hover:text-white before:duration-500 relative overflow-hidden z-[0] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-r before:from-[rgb(94,53,177,0.5)] before:to-[rgb(94,53,177)] before:z-[-1] hover:before:w-full'>
-                                <AutoAwesomeIcon fontSize='small' className='mr-2 text-[rgb(94,53,177)] group-hover:text-white group-hover:duration-5000' />
-                                Generate Response
+
+                    {/* Input Box */}
+                    <div className="p-5">
+                        <div className='flex border border-gray-500 p-1 rounded-full gap-2'>
+                            <input
+                                placeholder="Ask me anything..."
+                                className="flex-1 px-4 py-2 rounded-full outline-none"
+                                value={prompt}
+                                onChange={(e) => setPrompt(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleSubmitAI()}
+                            />
+                            <button
+                                className="w-10 h-10 flex justify-center items-center bg-black rounded-full"
+                                onClick={handleSubmitAI}
+                            >
+                                <NorthIcon className="text-white" />
                             </button>
                         </div>
                     </div>
-                </DialogActions> */}
+                </DialogContent>
             </Dialog>
         </>
     )
-}
+};
+
 
 export default AiAssistant
