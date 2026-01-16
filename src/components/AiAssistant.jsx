@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CloseIcon from '@mui/icons-material/Close';
 import NorthIcon from '@mui/icons-material/North';
-import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Box, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import axios from 'axios';
 
 function AiAssistant() {
@@ -13,13 +13,16 @@ function AiAssistant() {
     const [prompt, setPrompt] = useState('')
     const [messages, setMessages] = useState([])
     const [loading, setLoading] = useState(false)
+    const [model, setModel] = useState('openai/gpt-4o-mini')
 
     const handleSubmitAI = async () => {
         if (!prompt.trim()) return
 
+        console.log(model)
+
         const userMessage = {
             role: 'user',
-            content: prompt,
+            content: prompt
         }
 
         setMessages(prev => [...prev, userMessage])
@@ -29,13 +32,11 @@ function AiAssistant() {
         console.log(messages)
 
         try {
-            const res = await axios.post(`${API_URL}/aiAssistant`, { message: userMessage.content })
-
-            console.log('Response Ai', res.data.reply[0].message.content)
+            const res = await axios.post(`${API_URL}/aiAssistant`, { message: userMessage.content, model })
 
             const aiMessage = {
                 role: 'assistant',
-                content: res.data.reply[0].message.content,
+                content: res.data.reply,
             }
 
             setMessages(prev => [...prev, aiMessage])
@@ -45,6 +46,13 @@ function AiAssistant() {
         } finally {
             setLoading(false)
         }
+    }
+
+    const handleClearChat = () => {
+        setMessages([])
+        setPrompt('')
+        setModel('openai/gpt-4o-mini')
+        setLoading(false)
     }
 
     return (
@@ -59,7 +67,10 @@ function AiAssistant() {
                         <AutoAwesomeIcon className='mr-3' />
                         <span className='text-xl font-bold'>AI Assistant</span>
                     </div>
-                    <CloseIcon className='cursor-pointer' onClick={() => setOpenAi(false)} />
+                    <div>
+                        <button className='text-[10px] border border-[rgb(94,53,177)] text-white bg-[rgb(94,53,177)] hover:bg-[rgb(94,53,177,0.9)] py-1 px-2 rounded mr-3 cursor-pointer' onClick={handleClearChat}>Clear chat</button>
+                        <CloseIcon className='cursor-pointer border p-1 rounded-sm text-white bg-gray-500' onClick={() => setOpenAi(false)} />
+                    </div>
                 </DialogTitle>
                 <DialogContent
                     sx={{
@@ -69,7 +80,7 @@ function AiAssistant() {
                         height: '100%'
                     }}
                 >
-                    <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                    <div className="flex-1 overflow-y-auto p-6 space-y-3">
                         {messages.map((msg, index) => (
                             <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                 <div className={`max-w-[75%] px-4 py-2 text-sm ${msg.role === 'user'
@@ -87,26 +98,47 @@ function AiAssistant() {
                         )}
                     </div>
 
-                    {/* Input Box */}
                     <div className="p-5">
-                        <div className='flex border border-gray-500 p-1 rounded-full gap-2'>
+                        <div className="flex items-center gap-2 border border-gray-400 px-2 py-1 rounded-full">
                             <input
                                 placeholder="Ask me anything..."
-                                className="flex-1 px-4 py-2 rounded-full outline-none"
+                                className="flex-1 px-4 py-2 text-sm rounded-full outline-none border-none bg-transparent"
                                 value={prompt}
                                 onChange={(e) => setPrompt(e.target.value)}
-                                onKeyDown={(e) => e.key === 'Enter' && handleSubmitAI()}
+                                onKeyDown={(e) => e.key === "Enter" && handleSubmitAI()}
                             />
-                            <button
-                                className="w-10 h-10 flex justify-center items-center bg-black rounded-full"
-                                onClick={handleSubmitAI}
-                            >
+                            <FormControl size="small">
+                                <Select
+                                    displayEmpty
+                                    key={model}
+                                    value={model}
+                                    onChange={(e) => { setModel(e.target.value) }}
+                                    sx={{
+                                        height: "36px",
+                                        fontSize: "12px",
+                                        borderRadius: "999px",
+                                        width: "180px",
+                                        backgroundColor: "#f5f5f5",
+                                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                            border: "none",
+                                        }
+                                    }}
+                                >
+                                    <MenuItem className='whiteSpace-nowrap' value="openai/gpt-4o-mini">openai/gpt-4o-mini</MenuItem>
+                                    <MenuItem className='whiteSpace-nowrap' value="deepseek/deepseek-chat">deepseek/deepseek-chat</MenuItem>
+                                    <MenuItem className='whiteSpace-nowrap' value="anthropic/claude-3-haiku">anthropic/claude-3-haiku</MenuItem>
+                                    <MenuItem className='whiteSpace-nowrap' value="meta-llama/llama-3.3-70b-instruct">meta-llama/llama-3.3-70b-instruct</MenuItem>
+                                    <MenuItem className='whiteSpace-nowrap' value="mistralai/mistral-7b-instruct">mistralai/mistral-7b-instruct</MenuItem>
+                                </Select>
+                            </FormControl>
+
+                            <button onClick={handleSubmitAI} className="w-10 h-10 flex items-center justify-center bg-black rounded-full hover:bg-gray-800 transition">
                                 <NorthIcon className="text-white" />
                             </button>
                         </div>
                     </div>
                 </DialogContent>
-            </Dialog>
+            </Dialog >
         </>
     )
 };
