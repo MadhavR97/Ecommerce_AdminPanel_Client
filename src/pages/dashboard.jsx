@@ -12,13 +12,22 @@ function Dashboard() {
 
     return (
         <DashboardLayout>
-            <div className='rounded-xl p-6 bg-[rgb(237,231,246)] text-center md:text-left'>
-                <h1 className='text-[rgb(94,53,177)] text-xl md:text-2xl font-bold'>
-                    Welcome back, {username} 👋
-                </h1>
-                <p className='text-[rgb(94,53,177)] mt-1'>
-                    Here’s what’s happening with your dashboard today.
-                </p>
+            <div className='rounded-2xl p-6 bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100'>
+                <div className='flex flex-col md:flex-row md:items-center md:justify-between'>
+                    <div>
+                        <h1 className='text-2xl md:text-3xl font-bold text-gray-900'>
+                            Welcome back, <span className='text-indigo-600'>{username}</span> 👋
+                        </h1>
+                        <p className='text-gray-600 mt-2'>
+                            Here's what's happening with your dashboard today.
+                        </p>
+                    </div>
+                    <div className='mt-4 md:mt-0'>
+                        <button className='px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium'>
+                            View Reports
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div className='flex gap-5 mt-6 flex-col md:flex-row'>
