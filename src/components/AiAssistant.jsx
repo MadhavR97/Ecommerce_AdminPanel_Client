@@ -61,31 +61,55 @@ function AiAssistant() {
                 <AutoAwesomeIcon className='md:mr-2 text-[rgb(94,53,177)] group-hover:text-white' fontSize='small' />
                 <span className='whitespace-nowrap text-xs text-[rgb(94,53,177)] font-semibold duration-1000 group-hover:text-white hidden md:block'>AI Assistant</span>
             </button>
-            <Dialog open={openAi} onClose={() => setOpenAi(false)} maxWidth="sm" fullWidth sx={{ display: 'flex', justifyContent: 'right', border: '1px solid red' }} PaperProps={{ sx: { borderRadius: '20px', overflow: 'hidden', border: '0px solid rgb(94,53,177)', width: '500px', height: '100%' } }}>
-                <DialogTitle sx={{ paddingX: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgb(237,231,246)' }}>
-                    <div className='flex items-center mt-1'>
-                        <AutoAwesomeIcon className='mr-3 text-[rgb(94,53,177)]' />
-                        <span className='text-xl font-bold text-[rgb(94,53,177)]'>AI Assistant</span>
+            <Dialog
+                open={openAi}
+                onClose={() => setOpenAi(false)}
+                maxWidth="sm"
+                fullWidth
+                sx={{
+                    display: 'flex',
+                    justifyContent: { xs: 'center', sm: 'right' },
+                    alignItems: { xs: 'center', sm: 'flex-start' }
+                }}
+                PaperProps={{
+                    sx: {
+                        borderRadius: { xs: '0px', sm: '20px 0 0 20px' },
+                        overflow: 'hidden',
+                        border: '0px solid rgb(94,53,177)',
+                        width: { xs: '100vw', sm: '500px' },
+                        height: { xs: '100vh', sm: '100%' },
+                        maxHeight: { xs: '100vh', sm: '100%' },
+                        margin: { xs: '0', sm: '0' },
+                        backgroundColor: '#1a1a1a',
+                    }
+                }}
+            >
+                <DialogTitle className="flex items-center justify-between bg-gray-900 px-3 py-3 border-b border-gray-800">
+                    <div className="flex items-center gap-3">
+                        <AutoAwesomeIcon className="text-purple-400" />
+                        <span className="text-xl font-bold text-white">AI Assistant</span>
                     </div>
-                    <div>
-                        <button className='text-[10px] border border-[rgb(94,53,177)] text-white bg-[rgb(94,53,177)] hover:bg-[rgb(94,53,177,0.9)] py-1 px-2 rounded mr-3 cursor-pointer' onClick={handleClearChat}>Clear chat</button>
-                        <CloseIcon className='cursor-pointer border p-1 rounded-sm text-white bg-gray-500' onClick={() => setOpenAi(false)} />
+                    <div className="flex items-center gap-3">
+                        <button className="rounded bg-purple-700 px-3 py-1 text-xs text-white hover:bg-purple-600 transition-colors cursor-pointer border border-purple-700" onClick={handleClearChat}>Clear chat</button>
+                        <CloseIcon className="cursor-pointer rounded-sm border bg-gray-700 p-1 text-gray-300 hover:bg-gray-600 hover:text-white transition-colors" onClick={() => setOpenAi(false)} />
                     </div>
                 </DialogTitle>
+
                 <DialogContent
                     sx={{
                         padding: 0,
                         display: 'flex',
                         flexDirection: 'column',
-                        height: '100%'
+                        height: { xs: 'calc(95vh - 64px)', sm: '100%' },
+                        backgroundColor: '#1a1a1a',
                     }}
                 >
-                    <div className="flex-1 overflow-y-auto p-6 space-y-3">
+                    <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3 bg-gray-900">
                         {messages.map((msg, index) => (
                             <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[75%] px-4 py-2 text-sm ${msg.role === 'user'
-                                    ? 'bg-[rgb(94,53,177)] text-white rounded-tl-2xl rounded-bl-2xl rounded-tr-2xl'
-                                    : 'bg-gray-200 text-black rounded-tr-2xl rounded-br-2xl rounded-tl-2xl'
+                                <div className={`max-w-[85%] sm:max-w-[75%] px-4 py-2 text-sm ${msg.role === 'user'
+                                    ? 'bg-purple-700 text-white rounded-tl-2xl rounded-bl-2xl rounded-tr-2xl'
+                                    : 'bg-gray-800 text-gray-100 rounded-tr-2xl rounded-br-2xl rounded-tl-2xl'
                                     }`}
                                 >
                                     {msg.content}
@@ -94,46 +118,56 @@ function AiAssistant() {
                         ))}
 
                         {loading && (
-                            <div className="text-gray-400 text-sm">AI is typing...</div>
+                            <div className="text-gray-500 text-sm">AI is typing...</div>
                         )}
                     </div>
 
-                    <div className="p-5">
-                        <div className="flex items-center gap-2 border border-gray-400 px-2 py-1 rounded-full">
+                    <div className="p-4 sm:p-5 bg-gray-900 border-t border-gray-800">
+                        <div className="flex flex-col sm:flex-row items-center gap-2 border border-gray-700 px-2 py-1 sm:py-1 rounded-xl sm:rounded-full bg-gray-800">
                             <input
                                 placeholder="Ask me anything..."
-                                className="flex-1 px-4 py-2 text-sm rounded-full outline-none border-none bg-transparent"
+                                className="flex-1 w-full sm:w-auto px-4 py-2 text-sm rounded-full outline-none border-none bg-transparent text-white placeholder-gray-400"
                                 value={prompt}
                                 onChange={(e) => setPrompt(e.target.value)}
                                 onKeyDown={(e) => e.key === "Enter" && handleSubmitAI()}
                             />
-                            <FormControl size="small">
-                                <Select
-                                    key={model}
-                                    value={model}
-                                    onChange={(e) => { setModel(e.target.value) }}
-                                    sx={{
-                                        height: "36px",
-                                        fontSize: "12px",
-                                        borderRadius: "999px",
-                                        width: "180px",
-                                        backgroundColor: "#f5f5f5",
-                                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                            border: "none",
-                                        }
-                                    }}
-                                >
-                                    <MenuItem className='whiteSpace-nowrap' value="openai/gpt-4o-mini">openai/gpt-4o-mini</MenuItem>
-                                    <MenuItem className='whiteSpace-nowrap' value="deepseek/deepseek-chat">deepseek/deepseek-chat</MenuItem>
-                                    <MenuItem className='whiteSpace-nowrap' value="anthropic/claude-3-haiku">anthropic/claude-3-haiku</MenuItem>
-                                    <MenuItem className='whiteSpace-nowrap' value="meta-llama/llama-3.3-70b-instruct">meta-llama/llama-3.3-70b-instruct</MenuItem>
-                                    <MenuItem className='whiteSpace-nowrap' value="mistralai/mistral-7b-instruct">mistralai/mistral-7b-instruct</MenuItem>
-                                </Select>
-                            </FormControl>
 
-                            <button onClick={handleSubmitAI} className="w-10 h-10 flex items-center justify-center bg-black rounded-full hover:bg-gray-800 transition">
-                                <NorthIcon className="text-white" />
-                            </button>
+                            <div className="flex items-center w-full sm:w-auto gap-2">
+                                <FormControl size="small" sx={{ width: { xs: '100%', sm: '180px' } }}>
+                                    <Select
+                                        key={model}
+                                        value={model}
+                                        onChange={(e) => { setModel(e.target.value) }}
+                                        sx={{
+                                            height: "36px",
+                                            fontSize: { xs: "11px", sm: "12px" },
+                                            borderRadius: "999px",
+                                            width: "100%",
+                                            backgroundColor: "#2d2d2d",
+                                            color: "white",
+                                            "& .MuiSelect-icon": {
+                                                color: "white"
+                                            },
+                                            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                                border: "none",
+                                            },
+                                            "& .MuiOutlinedInput-notchedOutline": {
+                                                border: "none",
+                                            }
+                                        }}
+                                    >
+                                        <MenuItem className='whiteSpace-nowrap text-white bg-gray-800 hover:bg-gray-700' value="openai/gpt-4o-mini">openai/gpt-4o-mini</MenuItem>
+                                        <MenuItem className='whiteSpace-nowrap text-white bg-gray-800 hover:bg-gray-700' value="deepseek/deepseek-chat">deepseek/deepseek-chat</MenuItem>
+                                        <MenuItem className='whiteSpace-nowrap text-white bg-gray-800 hover:bg-gray-700' value="anthropic/claude-3-haiku">anthropic/claude-3-haiku</MenuItem>
+                                        <MenuItem className='whiteSpace-nowrap text-white bg-gray-800 hover:bg-gray-700' value="meta-llama/llama-3.3-70b-instruct">meta-llama/llama-3.3-70b-instruct</MenuItem>
+                                        <MenuItem className='whiteSpace-nowrap text-white bg-gray-800 hover:bg-gray-700' value="mistralai/mistral-7b-instruct">mistralai/mistral-7b-instruct</MenuItem>
+                                    </Select>
+                                </FormControl>
+
+                                <button onClick={handleSubmitAI} className="w-10 h-10 flex-shrink-0 flex items-center justify-center cursor-pointer bg-purple-700 rounded-full hover:bg-purple-600 transition">
+                                    <NorthIcon className="text-white" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </DialogContent>

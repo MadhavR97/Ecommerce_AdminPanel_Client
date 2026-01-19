@@ -220,7 +220,10 @@ function Header({ toggleSidebar, setToggleSidebar }) {
                 {/* AI Assistant */}
                 <AiAssistant />
 
-                <SearchIcon color='action' className='mr-3 cursor-pointer' onClick={() => setMobileSearch(!mobileSearch)} />
+                {/* Search for mobile */}
+                {isMobile && (
+                    <SearchIcon color='action' className='mr-3 cursor-pointer' onClick={() => setMobileSearch(!mobileSearch)} />
+                )}
 
                 {/* Notifications */}
                 <Badge color="primary" className='cursor-pointer'>
