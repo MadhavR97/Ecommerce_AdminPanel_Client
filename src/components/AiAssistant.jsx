@@ -57,11 +57,11 @@ function AiAssistant() {
 
     return (
         <>
-            <button className={`border border-[rgb(94,53,177,0.3)] bg-[rgb(237,231,246)] flex items-center mr-3 px-4 py-2 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm relative overflow-hidden group z-[0] ${openAi && 'bg-gradient-to-r from-[rgb(94,53,177)] to-[rgb(94,53,177,0.4)]'} before:w-0 before:h-full before:absolute before:top-0 before:left-0 before:bg-gradient-to-r before:from-[rgb(94,53,177)] before:to-[rgb(94,53,177,0.4)] before:duration-1000 before:z-[-1] hover:before:w-full`} onClick={() => { setOpenAi(true) }}>
-                <AutoAwesomeIcon className='mr-2 text-[rgb(94,53,177)] group-hover:text-white' fontSize='small' />
-                <span className='whitespace-nowrap text-xs text-[rgb(94,53,177)] font-semibold duration-1000 group-hover:text-white'>AI Assistant</span>
+            <button className={`border border-[rgb(94,53,177,0.3)] bg-[rgb(237,231,246)] flex items-center mr-3 p-2 md:px-4 md:py-2 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm relative overflow-hidden group z-[0] hover:bg-[rgb(94,53,177)] md:hover:bg-transparent ${openAi && 'bg-gradient-to-r from-[rgb(94,53,177)] to-[rgb(94,53,177,0.4)]'} before:hidden md:before:block hover:be before:w-0 before:h-full before:absolute before:top-0 before:left-0 before:bg-gradient-to-r before:from-[rgb(94,53,177)] before:to-[rgb(94,53,177,0.4)] before:duration-1000 before:z-[-1] hover:before:w-full`} onClick={() => { setOpenAi(true) }}>
+                <AutoAwesomeIcon className='md:mr-2 text-[rgb(94,53,177)] group-hover:text-white' fontSize='small' />
+                <span className='whitespace-nowrap text-xs text-[rgb(94,53,177)] font-semibold duration-1000 group-hover:text-white hidden md:block'>AI Assistant</span>
             </button>
-            <Dialog open={openAi} onClose={() => setOpenAi(false)} maxWidth="sm" fullWidth sx={{ display: 'flex', justifyContent: 'right' }} PaperProps={{ sx: { borderRadius: '20px', overflow: 'hidden', border: '0px solid rgb(94,53,177)', width: '500px', height: '100%' } }}>
+            <Dialog open={openAi} onClose={() => setOpenAi(false)} maxWidth="sm" fullWidth sx={{ display: 'flex', justifyContent: 'right', border: '1px solid red' }} PaperProps={{ sx: { borderRadius: '20px', overflow: 'hidden', border: '0px solid rgb(94,53,177)', width: '500px', height: '100%' } }}>
                 <DialogTitle sx={{ paddingX: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgb(237,231,246)' }}>
                     <div className='flex items-center mt-1'>
                         <AutoAwesomeIcon className='mr-3 text-[rgb(94,53,177)]' />
@@ -137,10 +137,9 @@ function AiAssistant() {
                         </div>
                     </div>
                 </DialogContent>
-            </Dialog >
+            </Dialog>
         </>
     )
 };
-
 
 export default AiAssistant

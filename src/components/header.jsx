@@ -3,6 +3,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import SearchIcon from '@mui/icons-material/Search'
 import LogoutIcon from '@mui/icons-material/Logout';
+import CloseIcon from '@mui/icons-material/Close';
 import { Badge, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import axios from 'axios';
@@ -20,6 +21,7 @@ function Header({ toggleSidebar, setToggleSidebar }) {
 
     const [open, setOpen] = useState(false)
     const [searchInput, setSearchInput] = useState('')
+    const [mobileSearch, setMobileSearch] = useState(false);
     const [products, setProducts] = useState([])
     const [filteredProducts, setFilteredProducts] = useState([])
     const user = JSON.parse(localStorage.getItem("user"))
@@ -58,7 +60,6 @@ function Header({ toggleSidebar, setToggleSidebar }) {
 
     const handleChange = (e) => {
         setSearchInput(e.target.value)
-
         const filteredProducts = products.filter(product =>
             product.productName.toLowerCase().includes(searchInput.toLowerCase())
         );
@@ -79,7 +80,7 @@ function Header({ toggleSidebar, setToggleSidebar }) {
                     <ChevronLeftIcon className={`text-[rgb(94,53,177)]`} />
                 </div>
 
-                <div className='w-full absolute left-0 flex justify-center items-center sm:static sm:w-auto'>
+                <div className='w-full absolute left-0 flex justify-center items-center sm:static sm:w-auto hidden md:block'>
                     <div className='border border-[gray] rounded-lg flex items-center ml-2 md:ml-5 h-[40px]'>
                         <div className='w-[40px] h-full flex justify-center items-center'>
                             <SearchIcon className='text-[gray]' />
@@ -88,51 +89,138 @@ function Header({ toggleSidebar, setToggleSidebar }) {
                     </div>
                 </div>
 
-                {isMobile
-                    ? <>
-                        {searchInput && filteredProducts.length > 0 ? (
-                            <div className='w-full p-5 absolute top-20 left-0 z-[1]'>
-                                <div className='shadow shadow-md w-full max-h-[70vh] p-3 rounded-lg bg-white overflow-y-scroll flex flex-col gap-2'>
-                                    {filteredProducts.map(product => (
-                                        <div key={product._id} className='flex items-center p-2 border-b border-[gray] rounded-lg hover:bg-gray-100 cursor-pointer' onClick={() => navigate(`/single-product/${product._id}`)}>
-                                            <img src={`${API_URL}/${product.image}`} alt={product.productName} className='w-10 h-10 object-contain rounded-md mr-3' />
-                                            <div>
-                                                <p className='text-sm font-medium text-gray-800'>{product.productName}</p>
-                                                <p className='text-xs text-gray-500'>₹{product.price}</p>
-                                            </div>
-                                        </div>
-                                    ))}
+                {searchInput && filteredProducts.length > 0 ? (
+                    <div className='hidden md:block h-[250px] overflow-y-scroll shadow shadow-md flex flex-col gap-2 absolute top-20 left-20 p-5 rounded-lg bg-white z-50 overflow-y-scroll'>
+                        {filteredProducts.map(product => (
+                            <div key={product._id} className='flex items-center p-2 border-b border-[gray] rounded-lg border-gray-200 hover:bg-gray-100 cursor-pointer' onClick={() => navigate(`/single-product/${product._id}`)}>
+                                <img src={`${API_URL}/${product.image}`} alt={product.productName} className='w-10 h-10 object-cover rounded-md mr-3' />
+                                <div>
+                                    <p className='text-sm font-medium text-gray-800'>{product.productName}</p>
+                                    <p className='text-xs text-gray-500'>₹{product.price}</p>
                                 </div>
                             </div>
-                        ) : searchInput && filteredProducts.length === 0 ? (
-                            <div className='absolute top-20 left-0 w-full flex justify-center items-center p-5'>
-                                <div className="shadow shadow-md shadow-[gray] w-[341px] h-[50px] text-gray-500 bg-white z-50 rounded-lg text-center flex justify-center items-center">No products found</div>
+                        ))}
+                    </div>
+                ) : searchInput && filteredProducts.length === 0 ? (
+                    <div className='shadow shadow-md absolute top-20 left-20 px-25 py-3 rounded-lg bg-white z-50'>
+                        <p className="text-gray-500 bg-white z-50 rounded-lg text-center flex justify-center items-center">No products found</p>
+                    </div>
+                ) : null}
+            </div>
+
+            {isMobile && (
+                <div className={`fixed inset-0 w-full h-screen bg-white z-50 transition-all duration-300 ease-in-out ${mobileSearch ? 'translate-x-0' : '-translate-x-full'}`}>
+                    {/* Search Header */}
+                    <div className="sticky top-0 bg-[rgb(94,53,177)] shadow-sm z-10">
+                        <div className="px-4 py-3">
+                            <div className="flex items-center justify-between mb-2">
+                                <h2 className="text-white font-semibold text-lg">Search Products</h2>
+                                <button
+                                    onClick={() => setMobileSearch(false)}
+                                    className="p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+                                    aria-label="Close search"
+                                >
+                                    <CloseIcon className="text-white w-6 h-6" />
+                                </button>
                             </div>
-                        ) : null}</>
-                    : <>
-                        {searchInput && filteredProducts.length > 0 ? (
-                            <div className='h-[250px] overflow-y-scroll shadow shadow-md flex flex-col gap-2 absolute top-20 left-20 p-5 rounded-lg bg-white z-50 overflow-y-scroll'>
-                                {filteredProducts.map(product => (
-                                    <div key={product._id} className='flex items-center p-2 border-b border-[gray] rounded-lg border-gray-200 hover:bg-gray-100 cursor-pointer' onClick={() => navigate(`/single-product/${product._id}`)}>
-                                        <img src={`${API_URL}/${product.image}`} alt={product.productName} className='w-10 h-10 object-cover rounded-md mr-3' />
-                                        <div>
-                                            <p className='text-sm font-medium text-gray-800'>{product.productName}</p>
-                                            <p className='text-xs text-gray-500'>₹{product.price}</p>
+
+                            {/* Search Input */}
+                            <div className="relative">
+                                <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
+                                    <SearchIcon className="text-gray-400 w-5 h-5" />
+                                </div>
+                                <input
+                                    type="text"
+                                    placeholder="Search for products..."
+                                    className="w-full pl-12 pr-12 py-3 rounded-xl bg-white border-0 focus:ring-2 focus:ring-white/30 focus:outline-none text-gray-800 placeholder-gray-400"
+                                    onChange={handleChange}
+                                    value={searchInput}
+                                    autoFocus
+                                />
+                                {searchInput && (
+                                    <button
+                                        onClick={() => setSearchInput('')}
+                                        className="absolute right-4 top-1/2 transform -translate-y-1/2 p-1"
+                                    >
+                                        <CloseIcon className="text-gray-400 w-4 h-4" />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="h-[calc(100vh-80px)] overflow-y-auto bg-gray-50">
+                        {searchInput ? (
+                            <>
+                                {filteredProducts.length > 0 ? (
+                                    <div className="p-4">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <p className="text-sm text-gray-600">
+                                                Found <span className="font-semibold">{filteredProducts.length}</span> product{filteredProducts.length !== 1 ? 's' : ''}
+                                            </p>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            {filteredProducts.map(product => (
+                                                <div key={product._id} className="bg-white rounded-xl p-3 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-100 active:bg-gray-50 cursor-pointer"
+                                                    onClick={() => {
+                                                        navigate(`/single-product/${product._id}`);
+                                                        setMobileSearch(false);
+                                                    }}
+                                                >
+                                                    <div className="flex items-center space-x-3">
+                                                        <div className="flex-shrink-0">
+                                                            <img
+                                                                src={`${API_URL}/${product.image}`}
+                                                                alt={product.productName}
+                                                                className="w-14 h-14 object-contain rounded-lg bg-gray-100 p-1"
+                                                            />
+                                                        </div>
+                                                        <div className="flex-1 min-w-0">
+                                                            <p className="text-sm font-medium text-gray-900 truncate">{product.productName}</p>
+                                                            <p className="text-xs text-gray-500 mt-1 line-clamp-2">{product.category}</p>
+                                                            <div className="flex items-center justify-between mt-2">
+                                                                <span className="text-sm font-bold text-[rgb(94,53,177)]">₹{product.price}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
-                                ))}
+                                ) : (
+                                    <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+                                        <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                                            No products found
+                                        </h3>
+                                        <p className="text-gray-500 text-sm max-w-xs">
+                                            We couldn't find any products matching "{searchInput}"
+                                        </p>
+                                    </div>
+                                )}
+                            </>
+                        ) : (
+                            <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+                                <div className="w-20 h-20 mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+                                    <SearchIcon className="w-10 h-10 text-gray-400" />
+                                </div>
+                                <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                                    Search Products
+                                </h3>
+                                <p className="text-gray-500 text-sm max-w-xs">
+                                    Type to search for products, brands, or categories
+                                </p>
                             </div>
-                        ) : searchInput && filteredProducts.length === 0 ? (
-                            <div className='shadow shadow-md absolute top-20 left-20 px-25 py-3 rounded-lg bg-white z-50'>
-                                <p className="text-gray-500 bg-white z-50 rounded-lg text-center flex justify-center items-center">No products found</p>
-                            </div>
-                        ) : null}
-                    </>}
-            </div>
+                        )}
+                    </div>
+                </div>
+            )}
 
             <div className='flex items-center mr-3 z-[1]'>
                 {/* AI Assistant */}
                 <AiAssistant />
+
+                <SearchIcon color='action' className='mr-3 cursor-pointer' onClick={() => setMobileSearch(!mobileSearch)} />
 
                 {/* Notifications */}
                 <Badge color="primary" className='cursor-pointer'>
