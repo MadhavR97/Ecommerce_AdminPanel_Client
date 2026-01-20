@@ -150,7 +150,7 @@ function ListProducts() {
                                                         )}
                                                     </div>
 
-                                                    {user.roll == 'admin' && (
+                                                    {user.role == 'admin' && (
                                                         <div className="flex gap-2">
                                                             <button
                                                                 onClick={(e) => {

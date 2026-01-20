@@ -17,7 +17,7 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
     const [formData, setFormData] = useState({
-        roll: '',
+        role: '',
         email: '',
         password: ''
     })
@@ -120,12 +120,12 @@ function Login() {
                 </div>
                 <form className='flex flex-col my-5 gap-5 w-full' onSubmit={handleSubmit}>
                     <FormControl fullWidth>
-                        <InputLabel size="small" sx={{ mt: { md: '5px' } }}>Roll</InputLabel>
+                        <InputLabel size="small" sx={{ mt: { md: '5px' } }}>Role</InputLabel>
                         <Select
-                            name="roll"
-                            value={formData.roll}
+                            name="role"
+                            value={formData.role}
                             onChange={handleChange}
-                            label="Roll"
+                            label="Role"
                             size="small"
                             required
                             sx={{

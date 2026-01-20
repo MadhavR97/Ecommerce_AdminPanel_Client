@@ -16,7 +16,7 @@ function Signup() {
     const navigate = useNavigate()
     const [showPassword, setShowPassword] = React.useState(false);
     const [formData, setFormData] = useState({
-        roll: '',
+        role: '',
         firstname: '',
         lastname: '',
         email: '',
@@ -71,12 +71,12 @@ function Signup() {
                 </div>
                 <form className='flex flex-col my-5 gap-5 w-full' onSubmit={handleSubmit}>
                     <FormControl fullWidth>
-                        <InputLabel size="small" sx={{ mt: { md: '5px' } }}>Roll</InputLabel>
+                        <InputLabel size="small" sx={{ mt: { md: '5px' } }}>Role</InputLabel>
                         <Select
-                            name="roll"
-                            value={formData.roll}
+                            name="role"
+                            value={formData.role}
                             onChange={handleChange}
-                            label="Roll"
+                            label="Role"
                             size="small"
                             required
                             sx={{

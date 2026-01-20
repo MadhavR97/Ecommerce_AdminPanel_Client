@@ -44,7 +44,7 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
                     <Divider className='bg-[gray]' />
                 </div>
 
-                {user.roll == 'admin' && (
+                {user.role == 'admin' && (
                     <div className={`p-5`}>
                         <div className='flex pl-2 text-white'>
                             <PeopleIcon className='group-hover:text-[rgb(94,53,177)]' />
@@ -73,12 +73,12 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
                     </div>
                     <Collapse in={expanded} timeout="auto">
                         <div>
-                            {user.roll == 'admin' && (
+                            {user.role == 'admin' && (
                                 <div className={`flex items-center mt-4 py-3 rounded-md px-2 text-[gray] cursor-pointer group hover:bg-[rgb(94,53,177)] hover:border-[rgb(94,53,177)] ${toggleSidebar ? 'visible' : 'invisible'}`} onClick={() => { navigate('/add-product') }}>
                                     <p className={`ml-3 min-w-0 group-hover:text-white whitespace-nowrap ${toggleSidebar ? 'truncate w-full block duration-300' : 'invisible'}`}>Add Products</p>
                                 </div>
                             )}
-                            <div className={`flex items-center py-3 ${user.roll != 'admin' && 'mt-4'} rounded-md px-2 text-[gray] cursor-pointer group hover:bg-[rgb(94,53,177)] hover:border-[rgb(94,53,177)] ${toggleSidebar ? 'visible' : 'invisible'}`} onClick={() => { navigate('/list-product') }}>
+                            <div className={`flex items-center py-3 ${user.role != 'admin' && 'mt-4'} rounded-md px-2 text-[gray] cursor-pointer group hover:bg-[rgb(94,53,177)] hover:border-[rgb(94,53,177)] ${toggleSidebar ? 'visible' : 'invisible'}`} onClick={() => { navigate('/list-product') }}>
                                 <p className={`ml-3 min-w-0 group-hover:text-white whitespace-nowrap ${toggleSidebar ? 'truncate w-full block duration-300' : 'invisible'}`}>List Products</p>
                             </div>
                         </div>
@@ -122,7 +122,7 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
                     <Divider className='bg-[gray]' />
                 </div>
 
-                {user.roll == 'admin' && (
+                {user.role == 'admin' && (
                     <div className={`p-5`}>
                         <div className='flex pl-1 text-white'>
                             <PeopleIcon className='group-hover:text-[rgb(94,53,177)]' />
@@ -151,12 +151,12 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
                     </div>
                     <Collapse in={expanded} timeout="auto">
                         <div>
-                            {user.roll == 'admin' && (
+                            {user.role == 'admin' && (
                                 <div className="flex items-center mt-4 py-3 rounded-md px-2 text-[gray] cursor-pointer group hover:bg-[rgb(94,53,177)] hover:border-[rgb(94,53,177)]" onClick={() => { navigate('/add-product') }}>
                                     <p className={`ml-3 min-w-0 group-hover:text-white`}>Add Products</p>
                                 </div>
                             )}
-                            <div className={`flex items-center py-3 ${user.roll != 'admin' && 'mt-4'} rounded-md px-2 text-[gray] cursor-pointer group hover:bg-[rgb(94,53,177)] hover:border-[rgb(94,53,177)]`} onClick={() => { navigate('/list-product') }}>
+                            <div className={`flex items-center py-3 ${user.role != 'admin' && 'mt-4'} rounded-md px-2 text-[gray] cursor-pointer group hover:bg-[rgb(94,53,177)] hover:border-[rgb(94,53,177)]`} onClick={() => { navigate('/list-product') }}>
                                 <p className={`ml-3 min-w-0 group-hover:text-white`}>List Products</p>
                             </div>
                         </div>

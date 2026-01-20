@@ -20,7 +20,7 @@ function UserManagement() {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [newUser, setNewUser] = useState({
-        roll: 'user',
+        role: 'user',
         firstname: '',
         lastname: '',
         email: '',
@@ -85,7 +85,7 @@ function UserManagement() {
         setOpen(true);
 
         setNewUser({
-            roll: user.roll,
+            role: user.role,
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,
@@ -99,7 +99,7 @@ function UserManagement() {
         setEditId(null);
         setShowPassword(false);
         setNewUser({
-            roll: 'user',
+            role: 'user',
             firstname: '',
             lastname: '',
             email: '',
@@ -210,7 +210,7 @@ function UserManagement() {
                                                     minWidth: 100,
                                                 }}
                                             >
-                                                Roll
+                                                Role
                                             </TableCell>
                                             <TableCell
                                                 sx={{
@@ -280,7 +280,7 @@ function UserManagement() {
                                                         textOverflow: 'ellipsis',
                                                     }}
                                                 >
-                                                    {user.roll == 'user' && 'User'}
+                                                    {user.role == 'user' && 'User'}
                                                 </TableCell>
                                                 <TableCell sx={{ whiteSpace: 'nowrap' }}>
                                                     <button className='p-1 border bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors duration-200 cursor-pointer' onClick={() => handleEditUser(user)}>
