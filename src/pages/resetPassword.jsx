@@ -49,7 +49,7 @@ function ResetPassword() {
     }
 
     return (
-        <div className='w-full h-full flex items-center justify-center bg-[#EEF2F6] p-5'>
+        <div className='w-full h-screen flex items-center justify-center bg-[#EEF2F6] p-5'>
             <div className='p-8 rounded-2xl bg-white w-full max-w-md shadow border border-gray-100'>
                 <div className='flex justify-center items-start mb-6'>
                     <img
