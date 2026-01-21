@@ -8,6 +8,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
 import { FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
+import api from '../api/axios';
 
 function Login() {
 
@@ -72,10 +73,10 @@ function Login() {
         e.preventDefault();
 
         try {
-            const res = await axios.post(`${API_URL}/loginUser`, formData);
-
+            const res = await api.post(`/loginUser`, formData);
             toast.success(res.data.message);
 
+            localStorage.setItem('token', res.data.token);
             localStorage.setItem("user", JSON.stringify(res.data.existUser));
             localStorage.setItem("auth", JSON.stringify(true));
 

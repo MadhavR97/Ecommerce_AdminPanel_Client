@@ -1,11 +1,11 @@
 import React, { use, useEffect, useState } from 'react'
 import DashboardLayout from './dashboardLayout'
 import BackupIcon from '@mui/icons-material/Backup';
-import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTheme, useMediaQuery } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
+import api from '../api/axios';
 
 function EditProduct() {
 
@@ -36,7 +36,7 @@ function EditProduct() {
 
     const fetchProduct = async () => {
         try {
-            const response = await axios.get(`${API_URL}/products/${id}`);
+            const response = await api.get(`/products/${id}`);
             const product = response.data.product;
 
             setProductData({
@@ -89,7 +89,7 @@ function EditProduct() {
         }
 
         try {
-            const response = await axios.put(`${API_URL}/products/${id}`, formData);
+            const response = await api.put(`/products/${id}`, formData);
 
             toast.success('Product updated successfully!');
             setTimeout(() => {

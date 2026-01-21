@@ -2,7 +2,6 @@ import React from 'react'
 import DashboardLayout from './dashboardLayout'
 import { useState } from 'react'
 import { useEffect } from 'react';
-import axios from 'axios';
 import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -10,6 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { toast, ToastContainer } from 'react-toastify';
+import api from '../api/axios';
 
 function UserManagement() {
 
@@ -37,7 +37,7 @@ function UserManagement() {
     const fetchUsers = async () => {
         try {
             setLoading(true)
-            const response = await axios.get(`${API_URL}/getUsers`);
+            const response = await api.get(`/getUsers`);
             setUsers(response.data.users);
         }
         catch (error) {
@@ -61,13 +61,13 @@ function UserManagement() {
 
         try {
             if (isEdit) {
-                const response = await axios.put(`${API_URL}/updateUser/${editId}`, newUser);
-                console.log(response.data)
+                const response = await api.put(`/updateUser/${editId}`, newUser);
+
                 toast.success(response.data.message);
 
             } else {
-                const response = await axios.post(`${API_URL}/AddUser`, newUser);
-                console.log(response.data)
+                const response = await api.post(`/AddUser`, newUser);
+
                 toast.success(response.data.message);
 
             }
@@ -109,7 +109,7 @@ function UserManagement() {
 
     const handleDeleteUser = async (id) => {
         try {
-            const response = await axios.delete(`${API_URL}/deleteUser/${id}`);
+            const response = await api.delete(`/deleteUser/${id}`);
             toast.success(response.data.message);
             fetchUsers();
         } catch (error) {
@@ -229,7 +229,7 @@ function UserManagement() {
                                     <TableBody>
                                         {users.map((user) => (
                                             <TableRow
-                                                key={user.id}
+                                                key={user._id}
                                                 hover
                                                 sx={{
                                                     '&:last-child td, &:last-child th': { border: 0 },

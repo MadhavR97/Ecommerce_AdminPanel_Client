@@ -18,8 +18,6 @@ function AiAssistant() {
     const handleSubmitAI = async () => {
         if (!prompt.trim()) return
 
-        console.log(model)
-
         const userMessage = {
             role: 'user',
             content: prompt
@@ -28,8 +26,6 @@ function AiAssistant() {
         setMessages(prev => [...prev, userMessage])
         setPrompt('')
         setLoading(true)
-
-        console.log(messages)
 
         try {
             const res = await axios.post(`${API_URL}/aiAssistant`, { message: userMessage.content, model })

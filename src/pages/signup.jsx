@@ -33,7 +33,7 @@ function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData)
+        
         try {
             const res = await axios.post(`${API_URL}/AddUser`, formData);
 

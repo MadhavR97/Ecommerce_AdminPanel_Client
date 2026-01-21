@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import DashboardLayout from './dashboardLayout'
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ToastContainer, toast } from 'react-toastify';
 import emptyBox from '../assets/Images/emptyBox.png'
 import { CircularProgress } from '@mui/material';
+import api from '../api/axios';
 
 function ListProducts() {
 
@@ -23,7 +23,7 @@ function ListProducts() {
         const fetchProducts = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get(`${API_URL}/products`);
+                const response = await api.get(`/products`);
                 setProducts(response.data.products);
                 setLength(response.data.products.length);
             } catch (error) {
@@ -42,7 +42,7 @@ function ListProducts() {
         e.preventDefault();
 
         try {
-            await axios.delete(`${API_URL}/products/${id}`);
+            await api.delete(`/products/${id}`);
             setProducts(products.filter((product) => product._id !== id));
             setLength(length - 1);
             toast.success('Product deleted successfully!');

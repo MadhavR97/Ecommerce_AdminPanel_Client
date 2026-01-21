@@ -3,10 +3,9 @@ import DashboardLayout from './dashboardLayout'
 import BackupIcon from '@mui/icons-material/Backup';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+import api from '../api/axios';
 
 function AddProduct() {
-
-    const API_URL = import.meta.env.VITE_API_URL;
 
     const [image, setImage] = useState(null);
     const [imageName, setImageName] = useState('')
@@ -53,24 +52,29 @@ function AddProduct() {
         formData.append('image', image);
 
         try {
-            const response = await axios.post(`${API_URL}/products`, formData);
+            const response = await api.post(`/products`, formData);
 
-            toast.success('Product added successfully!');
+            if (response.data.newProduct) {
+                toast.success(response.data.message)
+
+                setProductData({
+                    productName: '',
+                    manufactureName: '',
+                    price: '',
+                    description: '',
+                    category: '',
+                    stock: ''
+                });
+                setImage(null);
+                setImageName('');
+                setImagePreview(null);
+            }
+            else {
+                toast.error(response.data.message)
+            }
         } catch (error) {
             console.error('Error adding product:', error);
         }
-
-        setProductData({
-            productName: '',
-            manufactureName: '',
-            price: '',
-            description: '',
-            category: '',
-            stock: ''
-        });
-        setImage(null);
-        setImageName('');
-        setImagePreview(null);
     }
 
     return (

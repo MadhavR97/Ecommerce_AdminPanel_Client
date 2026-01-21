@@ -70,6 +70,7 @@ function Header({ toggleSidebar, setToggleSidebar }) {
     const handleLogout = () => {
         localStorage.removeItem("auth");
         localStorage.removeItem("user");
+        localStorage.removeItem("token");
         window.location.href = "/";
     };
 

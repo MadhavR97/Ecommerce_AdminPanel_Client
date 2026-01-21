@@ -2,11 +2,11 @@ import React from 'react'
 import DashboardLayout from './dashboardLayout'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import emptyBox from '../assets/Images/emptyBox.png'
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import { toast, ToastContainer } from 'react-toastify'
 import { CircularProgress, useMediaQuery, useTheme } from '@mui/material'
+import api from '../api/axios'
 
 function Cart() {
 
@@ -38,7 +38,7 @@ function Cart() {
     const fetchCart = async () => {
         try {
             setLoading(true)
-            const response = await axios.get(`${API_URL}/cart/${userId}`);
+            const response = await api.get(`/cart/${userId}`);
             setCartItems(response.data.items);
             setLength(response.data.items.length);
         } catch (error) {
@@ -51,7 +51,7 @@ function Cart() {
 
     const updateQuantity = async (productId, quantity) => {
         try {
-            await axios.put(`${API_URL}/cart/update`, {
+            await api.put(`/cart/update`, {
                 userId,
                 productId,
                 quantity,
@@ -65,7 +65,7 @@ function Cart() {
 
     const removeCartItem = async (productId) => {
         try {
-            const response = await axios.delete(`${API_URL}/cart/delete/${productId}`, { data: { userId } });
+            const response = await api.delete(`/cart/delete/${productId}`, { data: { userId } });
             toast.success(response.data.message);
             fetchCart();
         }

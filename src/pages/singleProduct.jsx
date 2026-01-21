@@ -3,8 +3,8 @@ import DashboardLayout from './dashboardLayout'
 import { useNavigate, useParams } from 'react-router-dom'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
+import api from '../api/axios'
 
 function SingleProduct() {
 
@@ -26,7 +26,7 @@ function SingleProduct() {
 
     const fetchProduct = async () => {
         try {
-            const response = await axios.get(`${API_URL}/products/${id}`)
+            const response = await api.get(`/products/${id}`)
             setProduct(response.data.product)
         } catch (error) {
             console.error('Error fetching product:', error)
@@ -35,7 +35,7 @@ function SingleProduct() {
 
     const handleAddToCart = async () => {
         try {
-            const response = await axios.post(`${API_URL}/cart`, {
+            const response = await api.post(`/cart`, {
                 userId,
                 productId: product._id,
                 quantity: 1,
