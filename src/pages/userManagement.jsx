@@ -2,12 +2,10 @@ import React from 'react'
 import DashboardLayout from './dashboardLayout'
 import { useState } from 'react'
 import { useEffect } from 'react';
-import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { toast, ToastContainer } from 'react-toastify';
 import api from '../api/axios';
 import axios from 'axios';
@@ -24,8 +22,7 @@ function UserManagement() {
         role: 'user',
         firstname: '',
         lastname: '',
-        email: '',
-        password: ''
+        email: ''
     })
 
     const [isEdit, setIsEdit] = useState(false);
@@ -63,14 +60,10 @@ function UserManagement() {
         try {
             if (isEdit) {
                 const response = await api.put(`/updateUser/${editId}`, newUser);
-
                 toast.success(response.data.message);
-
             } else {
                 const response = await axios.post(`${API_URL}/AddUser`, newUser);
-
                 toast.success(response.data.message);
-
             }
 
             fetchUsers();
@@ -89,8 +82,7 @@ function UserManagement() {
             role: user.role,
             firstname: user.firstname,
             lastname: user.lastname,
-            email: user.email,
-            password: user.password
+            email: user.email
         });
     };
 
@@ -103,8 +95,7 @@ function UserManagement() {
             role: 'user',
             firstname: '',
             lastname: '',
-            email: '',
-            password: ''
+            email: ''
         });
     };
 
@@ -423,38 +414,6 @@ function UserManagement() {
                                             }
                                         }}
                                         onChange={handleChange}
-                                    />
-
-                                    <TextField
-                                        required
-                                        name="password"
-                                        value={newUser.password}
-                                        label="Password"
-                                        type={showPassword ? "text" : "password"}
-                                        fullWidth
-                                        size="small"
-                                        variant="outlined"
-                                        sx={{
-                                            '& .MuiOutlinedInput-root': {
-                                                borderRadius: 1,
-                                                fontSize: '0.875rem'
-                                            }
-                                        }}
-                                        onChange={handleChange}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        edge="end"
-                                                        onClick={() => setShowPassword(!showPassword)}
-                                                        size="small"
-                                                        sx={{ color: '#6b7280' }}
-                                                    >
-                                                        {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            )
-                                        }}
                                     />
                                 </Stack>
                             </Box>

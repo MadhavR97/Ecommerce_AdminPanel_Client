@@ -21,7 +21,7 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
     return (
         <>
             {/* Desktop Device */}
-            <div className={`h-full duration-300 bg-[#212121] overflow-y-scroll hidden md:block rounded-tr-4xl rounded-br-4xl ${toggleSidebar ? 'w-[30%] lg:w-[20%] xl:w-[15%] duration-300' : 'w-[10%] lg:w-[5%]'}`}>
+            <div className={`h-full duration-300 bg-[#212121] overflow-y-scroll hidden md:block rounded-tr-4xl rounded-br-4xl ${toggleSidebar ? 'w-[30%] lg:w-[20%] xl:w-[15%] duration-300' : 'w-[10%] lg:w-[5%]'}`} onMouseEnter={()=>{setToggleSidebar(true)}}>
                 <div className='w-full px-5 py-8 mb-5'>
                     <div className="relative h-8">
                         <img src={logo} alt="Logo" className={`ml-1 absolute transition-opacity duration-200 ${toggleSidebar ? 'opacity-100' : 'opacity-0'}`} />
@@ -35,9 +35,11 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
                         <p className={`font-[600] ml-3 whitespace-nowrap ${toggleSidebar ? 'truncate w-full duration-300' : 'invisible'}`}>Dashboard</p>
                     </div>
 
-                    <div className={`flex items-center mt-4 py-3 rounded-md px-2 text-[gray] cursor-pointer group hover:bg-[rgb(94,53,177)] hover:border-[#3c1d7c] ${toggleSidebar ? 'visible' : 'invisible'}`} onClick={() => { navigate('/dashboard') }}>
-                        <p className={`ml-3 min-w-0 group-hover:text-white whitespace-nowrap ${toggleSidebar ? 'truncate w-full block duration-300' : 'invisible'}`}>Default</p>
-                    </div>
+                    <Collapse in={toggleSidebar} timeout="auto">
+                        <div className={`flex items-center mt-4 py-3 rounded-md px-2 text-[gray] cursor-pointer group hover:bg-[rgb(94,53,177)] hover:border-[#3c1d7c] ${toggleSidebar ? 'visible' : 'invisible'}`} onClick={() => { navigate('/dashboard') }}>
+                            <p className={`ml-3 min-w-0 group-hover:text-white whitespace-nowrap ${toggleSidebar ? 'truncate w-full block duration-300' : 'invisible'}`}>Default</p>
+                        </div>
+                    </Collapse>
                 </div>
 
                 <div className='px-5'>
@@ -51,9 +53,11 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
                             <p className={`font-[600] ml-3 whitespace-nowrap ${toggleSidebar ? 'truncate w-full duration-300' : 'invisible'}`}>User Management</p>
                         </div>
 
-                        <div className={`flex items-center mt-4 py-3 rounded-md px-2 text-[gray] cursor-pointer group hover:bg-[rgb(94,53,177)] hover:border-[#3c1d7c] ${toggleSidebar ? 'visible' : 'invisible'}`} onClick={() => { navigate('/user-management') }}>
-                            <p className={`ml-3 min-w-0 group-hover:text-white whitespace-nowrap ${toggleSidebar ? 'truncate w-full block duration-300' : 'invisible'}`}>Users</p>
-                        </div>
+                        <Collapse in={toggleSidebar} timeout="auto">
+                            <div className={`flex items-center mt-4 py-3 rounded-md px-2 text-[gray] cursor-pointer group hover:bg-[rgb(94,53,177)] hover:border-[#3c1d7c] ${toggleSidebar ? 'visible' : 'invisible'}`} onClick={() => { navigate('/user-management') }}>
+                                <p className={`ml-3 min-w-0 group-hover:text-white whitespace-nowrap ${toggleSidebar ? 'truncate w-full block duration-300' : 'invisible'}`}>Users</p>
+                            </div>
+                        </Collapse>
                     </div>
                 )}
 
@@ -65,13 +69,11 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
                     <div className='flex cursor-pointer pl-2 text-white' onClick={() => setExpanded(!expanded)}>
                         <img src={ProductIcon} className='w-6' />
                         <p className={`font-[600] ml-3 whitespace-nowrap ${toggleSidebar ? 'truncate w-full duration-300' : 'invisible'}`}>Product</p>
-                        {toggleSidebar && (
-                            <div className='ml-auto'>
-                                {expanded ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-                            </div>
-                        )}
+                        <div className='ml-auto'>
+                            {expanded ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                        </div>
                     </div>
-                    <Collapse in={expanded} timeout="auto">
+                    <Collapse in={toggleSidebar ? expanded : !expanded} timeout="auto">
                         <div>
                             {user.role == 'admin' && (
                                 <div className={`flex items-center mt-4 py-3 rounded-md px-2 text-[gray] cursor-pointer group hover:bg-[rgb(94,53,177)] hover:border-[rgb(94,53,177)] ${toggleSidebar ? 'visible' : 'invisible'}`} onClick={() => { navigate('/add-product') }}>
@@ -149,7 +151,7 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
                             </div>
                         )}
                     </div>
-                    <Collapse in={expanded} timeout="auto">
+                    <Collapse in={!toggleSidebar} timeout="auto">
                         <div>
                             {user.role == 'admin' && (
                                 <div className="flex items-center mt-4 py-3 rounded-md px-2 text-[gray] cursor-pointer group hover:bg-[rgb(94,53,177)] hover:border-[rgb(94,53,177)]" onClick={() => { navigate('/add-product') }}>

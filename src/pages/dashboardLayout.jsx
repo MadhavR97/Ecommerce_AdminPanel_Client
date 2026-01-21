@@ -3,7 +3,7 @@ import Sidebar from '../components/sidebar'
 import Header from '../components/header'
 
 function DashboardLayout({ children }) {
-    const [toggleSidebar, setToggleSidebar] = useState(true)
+    const [toggleSidebar, setToggleSidebar] = useState(false)
 
     return (
         <div className='w-full h-screen flex'>
