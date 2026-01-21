@@ -6,8 +6,8 @@ import { Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Sel
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
 
 function Signup() {
 
@@ -33,7 +33,7 @@ function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         try {
             const res = await axios.post(`${API_URL}/AddUser`, formData);
 

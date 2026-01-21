@@ -10,6 +10,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { toast, ToastContainer } from 'react-toastify';
 import api from '../api/axios';
+import axios from 'axios';
 
 function UserManagement() {
 
@@ -66,7 +67,7 @@ function UserManagement() {
                 toast.success(response.data.message);
 
             } else {
-                const response = await api.post(`/AddUser`, newUser);
+                const response = await axios.post(`${API_URL}/AddUser`, newUser);
 
                 toast.success(response.data.message);
 
