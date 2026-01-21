@@ -3,7 +3,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CloseIcon from '@mui/icons-material/Close';
 import NorthIcon from '@mui/icons-material/North';
 import { Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import axios from 'axios';
+import api from '../api/axios'
 
 function AiAssistant() {
 
@@ -28,7 +28,7 @@ function AiAssistant() {
         setLoading(true)
 
         try {
-            const res = await axios.post(`${API_URL}/aiAssistant`, { message: userMessage.content, model })
+            const res = await api.post(`/aiAssistant`, { message: userMessage.content, model })
 
             const aiMessage = {
                 role: 'assistant',
